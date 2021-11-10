@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Castle.Core.Internal;
+using Moq.Language.Flow;
 using MyNeighbors.Core.DomainServices;
 using MyNeighbors.Core.Entity;
 
@@ -27,6 +29,15 @@ namespace MyNeighbors.Core.ApplicationServices.Services
                 throw new ArgumentException("Review is missing");
             }
 
+            if (!IsValidReview(updateReview))
+            {
+                throw new ArgumentException("Invalid review property");
+            }
+
+            if (_reviewRepo.ReadReviewById(updateReview.Id) == null)
+            {
+                throw new InvalidOperationException("Review does not exist");
+            }
             return _reviewRepo.UpdateReview(updateReview);
         }
 
@@ -39,7 +50,7 @@ namespace MyNeighbors.Core.ApplicationServices.Services
         {
             if (_reviewRepo.ReadReviewById(id) == null)
             {
-                throw new InvalidOperationException("Cannot delete a non-existing house");
+                throw new InvalidOperationException("Cannot remove review that does not exist");
             }
 
             return _reviewRepo.DeleteReview(id);
@@ -53,7 +64,29 @@ namespace MyNeighbors.Core.ApplicationServices.Services
 
         public Review CreateReview(Review review)
         {
+            if (review == null)
+            {
+                throw new ArgumentException("Review is missing");
+            }
+
+            if (!IsValidReview(review))
+            {
+                throw new ArgumentException("Invalid review property");
+            }
+            if (_reviewRepo.ReadReviewById(review.Id) != null)
+            {
+                throw new InvalidOperationException("This review already exists");
+            }
             return _reviewRepo.CreateReview(review);
+        }
+
+        private bool IsValidReview(Review review)
+        {
+            return (!review.Description.IsNullOrEmpty()
+                    && review.Rating > 0
+                    && review.Noise_Rating > 0
+                    && review.Schools_Rating > 0
+                    && review.Shopping_Rating > 0);
         }
     }
 }
