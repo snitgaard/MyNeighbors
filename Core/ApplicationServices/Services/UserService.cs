@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Castle.Core.Internal;
 using MyNeighbors.Core.DomainServices;
 using MyNeighbors.Core.Entity;
 
@@ -22,6 +23,20 @@ namespace MyNeighbors.Core.ApplicationServices.Services
 
         public User UpdateUser(User userUpdate)
         {
+            if (userUpdate == null)
+            {
+                throw new ArgumentException("User is missing");
+            }
+
+            if (!IsValidUser(userUpdate))
+            {
+                throw new ArgumentException("Invalid user property");
+            }
+
+            if (_userRepo.ReadUserById(userUpdate.Id) == null)
+            {
+                throw new InvalidOperationException("User does not exist");
+            }
             return _userRepo.UpdateUser(userUpdate);
         }
 
@@ -32,6 +47,10 @@ namespace MyNeighbors.Core.ApplicationServices.Services
 
         public User DeleteUser(int id)
         {
+            if (_userRepo.ReadUserById(id) == null)
+            {
+                throw new InvalidOperationException("Cannot remove user that does not exist");
+            }
             return _userRepo.DeleteUser(id);
         }
 
@@ -47,7 +66,24 @@ namespace MyNeighbors.Core.ApplicationServices.Services
 
         public User CreateUser(User user)
         {
+            if (user == null)
+            {
+                throw new ArgumentException("User is missing");
+            }
+            if (!IsValidUser(user))
+            {
+                throw new ArgumentException("Invalid user property");
+            }
+            if (_userRepo.ReadUserById(user.Id) != null)
+            {
+                throw new InvalidOperationException("This User already exists");
+            }
             return _userRepo.CreateUser(user);
+        }
+
+        private bool IsValidUser(User user)
+        {
+            return (!user.Username.IsNullOrEmpty());
         }
     }
 }
