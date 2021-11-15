@@ -2,6 +2,7 @@
 using MyNeighbors.Core.Entity;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using Microsoft.EntityFrameworkCore;
 using MyNeighbors.Infrastructure.Helpers;
 
@@ -45,6 +46,11 @@ namespace MyNeighbors.Infrastructure.Repositories
         public User ReadUserById(int id)
         {
             return _ctx.User.AsNoTracking().FirstOrDefault(u => u.Id == id);
+        }
+
+        public User ReadUserByUsername(string username)
+        {
+            return _ctx.User.AsNoTracking().FirstOrDefault(u => u.Username == username);
         }
 
         public User UpdateUser(User updateUser)

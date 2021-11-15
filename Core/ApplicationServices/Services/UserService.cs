@@ -78,6 +78,11 @@ namespace MyNeighbors.Core.ApplicationServices.Services
             {
                 throw new InvalidOperationException("This User already exists");
             }
+
+            if (_userRepo.ReadUserByUsername(user.Username) != null)
+            {
+                throw new InvalidOperationException("This User already exists");
+            }
             return _userRepo.CreateUser(user);
         }
 

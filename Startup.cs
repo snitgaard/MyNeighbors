@@ -66,6 +66,14 @@ namespace MyNeighbors
             services.AddScoped<IReviewRepository, ReviewRepository>();
             services.AddScoped<IUserRepository<User>, UserRepository>();
             services.AddControllers();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", b => b.WithOrigins("http://localhost:4200")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials()
+                );
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -105,7 +113,7 @@ namespace MyNeighbors
 
             services.AddCors(options =>
             {
-                options.AddPolicy("CorsPolicy", b => b.WithOrigins("")
+                options.AddPolicy("CorsPolicy", b => b.WithOrigins("http://localhost:4200")
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials()

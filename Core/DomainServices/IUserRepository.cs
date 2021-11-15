@@ -12,6 +12,7 @@ namespace MyNeighbors.Core.DomainServices
         User CreateUser(User user);
         User UpdateUser(User updateUser);
         User ReadUserById(int id);
+        User ReadUserByUsername(string username);
         User DeleteUser(int id);
     }
 }
