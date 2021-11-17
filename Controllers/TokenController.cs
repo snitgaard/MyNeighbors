@@ -35,7 +35,8 @@ namespace MyNeighbors.Controllers
             {
                 username = user.Username,
                 token = authentication.GenerateToken(user),
-                id = user.Id
+                id = user.Id,
+                isLoggedIn = true
             });
         }
     }
