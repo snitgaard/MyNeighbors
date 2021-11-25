@@ -13,8 +13,8 @@ namespace MyNeighbors.Core.ApplicationServices
         Review FindReviewById(int id);
         Review DeleteReview(int id);
 
-        Review NewReview(string id, string description, double rating, DateTime date, double noise_rating,
-            double shopping_rating, double schools_rating, User user, Address address);
+        Review NewReview(string id, string description, double rating, DateTime date, int noise_rating,
+            int shopping_rating, int schools_rating, User user, Address address);
 
         Review CreateReview(Review review);
     }

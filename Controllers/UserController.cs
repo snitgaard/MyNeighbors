@@ -56,8 +56,14 @@ namespace MyNeighbors.Controllers
             {
                 return StatusCode(500, "Name is required for creating a user");
             }
-
-            return _userService.CreateUser(user);
+            try
+            {
+                return _userService.CreateUser(user);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
 
         [HttpPut("{id}")]

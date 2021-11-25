@@ -56,12 +56,6 @@ namespace MyNeighbors.Core.ApplicationServices.Services
             return _reviewRepo.DeleteReview(id);
         }
 
-        public Review NewReview(string id, string description, double rating, DateTime date, double noise_rating,
-            double shopping_rating, double schools_rating, User user, Address address)
-        {
-            throw new NotImplementedException();
-        }
-
         public Review CreateReview(Review review)
         {
             if (review == null)
@@ -87,6 +81,11 @@ namespace MyNeighbors.Core.ApplicationServices.Services
                     && review.Noise_Rating > 0
                     && review.Schools_Rating > 0
                     && review.Shopping_Rating > 0);
+        }
+
+        public Review NewReview(string id, string description, double rating, DateTime date, int noise_rating, int shopping_rating, int schools_rating, User user, Address address)
+        {
+            throw new NotImplementedException();
         }
     }
 }
