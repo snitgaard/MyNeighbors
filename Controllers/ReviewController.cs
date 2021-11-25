@@ -43,7 +43,14 @@ namespace MyNeighbors.Controllers
         [HttpPost]
         public ActionResult<Review> Post([FromBody] Review review)
         {
-            return _reviewService.CreateReview(review);
+            try
+            {
+                return _reviewService.CreateReview(review);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
         
         [HttpPut("{id}")]
