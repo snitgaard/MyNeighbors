@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using MyNeighbors.Core.ApplicationServices;
 using MyNeighbors.Core.Entity;
@@ -39,7 +40,26 @@ namespace MyNeighbors.Controllers
                 return StatusCode(500, "Could not find a review on this id");
             }
         }
- 
+
+        [HttpGet("address/{addressId}")]
+        public ActionResult<List<Review>> GetByAddressId(string addressId)
+        {
+            var review = _reviewService.FindReviewsByAddressId(addressId);
+            if (review == null)
+            {
+                return StatusCode(404, "Review not found");
+            }
+
+            try
+            {
+                return _reviewService.FindReviewsByAddressId(addressId);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Could not find a review on this id");
+            }
+        }
+
         [HttpPost]
         public ActionResult<Review> Post([FromBody] Review review)
         {

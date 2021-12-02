@@ -8,7 +8,7 @@ using EntityState = Microsoft.EntityFrameworkCore.EntityState;
 
 namespace MyNeighbors.Infrastructure.Repositories
 {
-    public class ReviewRepository: IReviewRepository
+    public class ReviewRepository : IReviewRepository
     {
         private MyNeighborsContext _ctx;
 
@@ -16,12 +16,12 @@ namespace MyNeighbors.Infrastructure.Repositories
         {
             _ctx = ctx;
         }
-           
+
         public IEnumerable<Review> ReadAllReviews()
         {
-            return _ctx.Review.AsNoTracking();
+            return _ctx.Review.AsNoTracking().OrderByDescending(r => r.Date);
         }
-         
+
         public Review CreateReview(Review review)
         {
             _ctx.DetachAll();
@@ -50,5 +50,11 @@ namespace MyNeighbors.Infrastructure.Repositories
             _ctx.SaveChanges();
             return removedReview;
         }
+
+        public IEnumerable<Review> FindReviewsByAddressId(string addressId)
+        {
+            return _ctx.Review.Where(r => r.AddressId == addressId).OrderByDescending(r => r.Date).ToList();
+        }
     }
+    
 }

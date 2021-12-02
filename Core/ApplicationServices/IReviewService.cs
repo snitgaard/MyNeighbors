@@ -11,6 +11,7 @@ namespace MyNeighbors.Core.ApplicationServices
         List<Review> GetAllReviews();
         Review UpdateReview(Review updateReview);
         Review FindReviewById(int id);
+        List<Review> FindReviewsByAddressId(string addressId);
         Review DeleteReview(int id);
 
         Review NewReview(string id, string description, double rating, DateTime date, int noise_rating,
