@@ -88,5 +88,10 @@ namespace MyNeighbors.Core.ApplicationServices.Services
                     && review.Schools_Rating > 0
                     && review.Shopping_Rating > 0);
         }
+
+        public List<Review> GetReviewByUserId(int userId)
+        {
+            return _reviewRepo.FindReviewByUserId(userId).ToList();
+        }
     }
 }

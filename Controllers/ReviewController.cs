@@ -76,5 +76,11 @@ namespace MyNeighbors.Controllers
                 return StatusCode(500, "Could not find review");
             }
         }
+
+        [HttpGet("{userId}")]
+        public ActionResult<List<Review>> GetByUserId(int userId) 
+        {
+            return _reviewService.GetReviewByUserId(userId);
+        }
     }
 }

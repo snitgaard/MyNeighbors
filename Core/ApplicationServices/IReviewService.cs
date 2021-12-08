@@ -17,5 +17,7 @@ namespace MyNeighbors.Core.ApplicationServices
             double shopping_rating, double schools_rating, User user, Address address);
 
         Review CreateReview(Review review);
+
+        List<Review> GetReviewByUserId(int userId);
     }
 }

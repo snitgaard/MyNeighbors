@@ -16,7 +16,6 @@ namespace MyNeighbors.Infrastructure.Repositories
         {
             _ctx = ctx;
         }
-           
         public IEnumerable<Review> ReadAllReviews()
         {
             return _ctx.Review.AsNoTracking();
@@ -49,6 +48,11 @@ namespace MyNeighbors.Infrastructure.Repositories
             var removedReview = _ctx.Remove(review).Entity;
             _ctx.SaveChanges();
             return removedReview;
+        }
+
+        public IEnumerable<Review> FindReviewByUserId(int userId) 
+        {
+            return _ctx.Review.Where(r => r.UserId == userId);
         }
     }
 }
