@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Core.Common;
 using System.Linq;
+using EFCore.BulkExtensions;
 using MyNeighbors.Core.DomainServices;
 using MyNeighbors.Core.Entity;
 using EntityState = Microsoft.EntityFrameworkCore.EntityState;
@@ -51,10 +53,22 @@ namespace MyNeighbors.Infrastructure.Repositories
             return removedReview;
         }
 
-        public IEnumerable<Review> FindReviewsByAddressId(string addressId)
+        public IEnumerable<Review> FindReviewsByAddressId(string addressId, double address_x, double address_y)
         {
-            return _ctx.Review.Where(r => r.AddressId == addressId).OrderByDescending(r => r.Date).ToList();
+            var ratioX = 0.004661679103927;
+            var ratioY = 0.00169972628037;
+
+            var minX = address_x - ratioX;
+            var minY = address_y - ratioY;
+            var maxX = address_x + ratioX;
+            var maxY = address_y + ratioY;
+            Console.WriteLine(minX + ", " + minY + "& " + maxX + ", " + maxY);
+            return _ctx.Review
+                .Where(r => r.AddressId == addressId).OrderByDescending(r => r.Date)
+                .Where(r=> r.Address_x >= minX && r.Address_x <= maxX && r.Address_y >= minY && r.Address_y <= maxY)
+                .ToList();
         }
+
+
     }
-    
 }

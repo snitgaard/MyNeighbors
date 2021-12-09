@@ -16,7 +16,7 @@ namespace MyNeighbors.Controllers
             _reviewService = reviewService;
         }
 
-        [HttpGet]
+        [HttpGet("all")]
         public ActionResult<List<Review>> Get()
         {
             return _reviewService.GetAllReviews();
@@ -30,7 +30,6 @@ namespace MyNeighbors.Controllers
             {
                 return StatusCode(404, "Review not found");
             }
-
             try
             {
                 return _reviewService.FindReviewById(id);
@@ -41,18 +40,17 @@ namespace MyNeighbors.Controllers
             }
         }
 
-        [HttpGet("address/{addressId}")]
-        public ActionResult<List<Review>> GetByAddressId(string addressId)
+        [HttpGet("review/{addressId}&x={address_x}&y={address_y}")]
+        public ActionResult<List<Review>> GetByAddressId(string addressId, double address_x, double address_y)
         {
-            var review = _reviewService.FindReviewsByAddressId(addressId);
+            var review = _reviewService.FindReviewsByAddressId(addressId, address_x, address_y);
             if (review == null)
             {
                 return StatusCode(404, "Review not found");
             }
-
             try
             {
-                return _reviewService.FindReviewsByAddressId(addressId);
+                return _reviewService.FindReviewsByAddressId(addressId, address_x, address_y);
             }
             catch (Exception)
             {
