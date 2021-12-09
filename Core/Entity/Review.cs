@@ -16,6 +16,7 @@ namespace MyNeighbors.Core.Entity
         public int Schools_Rating { get; set; }
         public int UserId { get; set; }
         public string AddressId { get; set; }
-
+        public double Address_x { get; set; }
+        public double Address_y { get; set; }
     }
 }

@@ -46,9 +46,9 @@ namespace MyNeighbors.Core.ApplicationServices.Services
             return _reviewRepo.ReadReviewById(id);
         }
 
-        public List<Review> FindReviewsByAddressId(string addressId)
+        public List<Review> FindReviewsByAddressId(string addressId, double address_x, double address_y)
         {
-            return _reviewRepo.FindReviewsByAddressId(addressId).ToList();
+            return _reviewRepo.FindReviewsByAddressId(addressId, address_x, address_y).ToList();
         }
 
 
