@@ -93,5 +93,10 @@ namespace MyNeighbors.Core.ApplicationServices.Services
         {
             throw new NotImplementedException();
         }
+
+        public List<Review> FindReviewsByUserId(int userId)
+        {
+            return _reviewRepo.FindReviewsByUserId(userId).ToList();
+        }
     }
 }

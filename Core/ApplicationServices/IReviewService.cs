@@ -18,5 +18,6 @@ namespace MyNeighbors.Core.ApplicationServices
             int shopping_rating, int schools_rating, User user, Address address);
 
         Review CreateReview(Review review);
+        List<Review> FindReviewsByUserId(int userId);
     }
 }

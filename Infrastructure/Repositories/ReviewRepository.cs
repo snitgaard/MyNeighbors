@@ -55,6 +55,11 @@ namespace MyNeighbors.Infrastructure.Repositories
         {
             return _ctx.Review.Where(r => r.AddressId == addressId).OrderByDescending(r => r.Date).ToList();
         }
+
+        public IEnumerable<Review> FindReviewsByUserId(int userId)
+        {
+            return _ctx.Review.Where(r => r.UserId == userId).OrderByDescending(r => r.Date).ToList();
+        }
     }
     
 }

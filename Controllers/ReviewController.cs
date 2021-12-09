@@ -103,5 +103,24 @@ namespace MyNeighbors.Controllers
                 return StatusCode(500, "Could not find review");
             }
         }
+
+        [HttpGet("userid/{userId}")]
+        public ActionResult<List<Review>> GetByUserId(int userId) 
+        {
+            var review = _reviewService.FindReviewsByUserId(userId);
+            if (review == null)
+            {
+                return StatusCode(404, "Review not found");
+            }
+
+            try
+            {
+                return _reviewService.FindReviewsByUserId(userId);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Could not find a review on this id");
+            }
+        }
     }
 }
