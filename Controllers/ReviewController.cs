@@ -40,7 +40,7 @@ namespace MyNeighbors.Controllers
             }
         }
 
-        [HttpGet("review/{addressId}&x={address_x}&y={address_y}")]
+        [HttpGet("{addressId}&x={address_x}&y={address_y}")]
         public ActionResult<List<Review>> GetByAddressId(string addressId, double address_x, double address_y)
         {
             var review = _reviewService.FindReviewsByAddressId(addressId, address_x, address_y);
