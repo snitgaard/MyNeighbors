@@ -55,17 +55,18 @@ namespace MyNeighbors.Infrastructure.Repositories
 
         public IEnumerable<Review> FindReviewsByAddressId(string addressId, double address_x, double address_y)
         {
-            var ratioX = 0.004661679103927;
-            var ratioY = 0.00169972628037;
+            var ratioX = 0.002379515501747;
+            var ratioY = 0.00137317885235;
 
             var minX = address_x - ratioX;
             var minY = address_y - ratioY;
             var maxX = address_x + ratioX;
             var maxY = address_y + ratioY;
-            Console.WriteLine(minX + ", " + minY + "& " + maxX + ", " + maxY);
+            Console.WriteLine("Incoming value: " + address_x + " & " + address_y);
+            Console.WriteLine("Calculated values: " + minX + ", " + minY + "& " + maxX + ", " + maxY);
             return _ctx.Review
-                .Where(r => r.AddressId == addressId).OrderByDescending(r => r.Date)
-                .Where(r=> r.Address_x >= minX && r.Address_x <= maxX && r.Address_y >= minY && r.Address_y <= maxY)
+                .Where(r => r.Address_x >= minX && r.Address_x <= maxX && r.Address_y >= minY && r.Address_y <= maxY)
+                .OrderByDescending(r => r.Date)
                 .ToList();
         }
 
