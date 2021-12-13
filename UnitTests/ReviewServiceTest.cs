@@ -38,7 +38,6 @@ namespace MyNeighbors.UnitTests
             {
                 Id = id,
                 Description = description,
-                Rating = rating,
                 Date = DateTime.Parse(date),
                 Noise_Rating = noise_rating,
                 Shopping_Rating = shopping_rating,
@@ -55,7 +54,6 @@ namespace MyNeighbors.UnitTests
             {
                 Id = 1,
                 Description = "Noisy neighbors",
-                Rating = 5,
                 Date = DateTime.Parse("2021-11-10"),
                 Noise_Rating = 2,
                 Shopping_Rating = 5,
@@ -94,7 +92,6 @@ namespace MyNeighbors.UnitTests
             {
                 Id = id,
                 Description = description,
-                Rating = rating,
                 Date = DateTime.Parse(date),
                 Noise_Rating = noise_rating,
                 Shopping_Rating = shopping_rating,
@@ -113,7 +110,6 @@ namespace MyNeighbors.UnitTests
             {
                 Id = 1,
                 Description = "Noisy neighbors",
-                Rating = 5,
                 Date = DateTime.Parse("2021-11-10"),
                 Noise_Rating = 2,
                 Shopping_Rating = 5,
@@ -133,7 +129,6 @@ namespace MyNeighbors.UnitTests
             {
                 Id = 1,
                 Description = "Noisy neighbors",
-                Rating = 5,
                 Date = DateTime.Parse("2021-11-10"),
                 Noise_Rating = 2,
                 Shopping_Rating = 5,
@@ -154,7 +149,6 @@ namespace MyNeighbors.UnitTests
             {
                 Id = 1,
                 Description = "Noisy neighbors",
-                Rating = 5,
                 Date = DateTime.Parse("2021-11-10"),
                 Noise_Rating = 2,
                 Shopping_Rating = 5,

@@ -83,13 +83,12 @@ namespace MyNeighbors.Core.ApplicationServices.Services
         private bool IsValidReview(Review review)
         {
             return (!review.Description.IsNullOrEmpty()
-                    && review.Rating > 0
                     && review.Noise_Rating > -1
                     && review.Schools_Rating > -1
                     && review.Shopping_Rating > -1);
         }
 
-        public Review NewReview(string id, string description, double rating, DateTime date, int noise_rating, int shopping_rating, int schools_rating, User user, Address address)
+        public Review NewReview(string id, string description, DateTime date, int noise_rating, int shopping_rating, int schools_rating, User user, Address address)
         {
             throw new NotImplementedException();
         }
