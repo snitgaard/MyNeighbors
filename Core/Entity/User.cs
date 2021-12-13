@@ -13,5 +13,6 @@ namespace MyNeighbors.Core.Entity
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
         public List<Review> Reviews { get; set; }
+        public Boolean IsAdmin { get; set; }
     }
 }

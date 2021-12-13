@@ -61,10 +61,13 @@ namespace MyNeighbors
 
             services.AddScoped<IReviewService, ReviewService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ISponsorService, SponsorService>();
 
 
             services.AddScoped<IReviewRepository, ReviewRepository>();
             services.AddScoped<IUserRepository<User>, UserRepository>();
+            services.AddScoped<ISponsorRepository, SponsorRepository>();
+
             services.AddControllers();
             services.AddCors(options =>
             {

@@ -90,7 +90,7 @@ namespace MyNeighbors.Controllers
             var review = _reviewService.DeleteReview(id);
             if (review == null)
             {
-                return StatusCode(404, "Could not delete review if the house doesn't exist");
+                return StatusCode(404, "Could not delete review if the sponsor doesn't exist");
             }
             try
             {
