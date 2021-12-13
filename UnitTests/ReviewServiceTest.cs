@@ -26,9 +26,9 @@ namespace MyNeighbors.UnitTests
             Assert.NotNull(service);
         }
 
-        [InlineData(1, "Noisy neighbors", 5, "2021-10-11", 3, 2, 4, 1)]
+        [InlineData(1, "Noisy neighbors", 5.0, "2021-10-11", 3, 2, 4, 1)]
         [Theory]
-        public void CreateValidReviewNotExist(int id, string description, int rating, string date, int noise_rating,
+        public void CreateValidReviewNotExist(int id, string description, double rating, string date, int noise_rating,
             int shopping_rating, int schools_rating, int userId)
         {
             IReviewRepository repo = reviewMock.Object;
@@ -38,6 +38,7 @@ namespace MyNeighbors.UnitTests
             {
                 Id = id,
                 Description = description,
+                Rating = rating,
                 Date = DateTime.Parse(date),
                 Noise_Rating = noise_rating,
                 Shopping_Rating = shopping_rating,
@@ -54,6 +55,7 @@ namespace MyNeighbors.UnitTests
             {
                 Id = 1,
                 Description = "Noisy neighbors",
+                Rating = 5.0,
                 Date = DateTime.Parse("2021-11-10"),
                 Noise_Rating = 2,
                 Shopping_Rating = 5,
@@ -84,7 +86,7 @@ namespace MyNeighbors.UnitTests
         [InlineData(1, "Noisy neighbors", 5, "2021-10-11", 3, -1, 4, 1)]
         [InlineData(1, "Noisy neighbors", 5, "2021-10-11", 3, 2, -1, 1)]
         [Theory]
-        public void CreateInvalidReviewExpectArgumentException(int id, string description, int rating, string date,
+        public void CreateInvalidReviewExpectArgumentException(int id, string description, double rating, string date,
             int noise_rating, int shopping_rating, int schools_rating, int userId)
         {
             ReviewService service = new ReviewService(reviewMock.Object);
@@ -92,15 +94,16 @@ namespace MyNeighbors.UnitTests
             {
                 Id = id,
                 Description = description,
+                Rating = rating,
                 Date = DateTime.Parse(date),
                 Noise_Rating = noise_rating,
                 Shopping_Rating = shopping_rating,
                 Schools_Rating = schools_rating,
                 UserId = userId
             };
-            var ex = Assert.Throws<ArgumentException>(() => service.UpdateReview(r));
+            var ex = Assert.Throws<ArgumentException>(() => service.CreateReview(r));
             Assert.Equal("Invalid review property", ex.Message);
-            reviewMock.Verify(repo => repo.UpdateReview(It.Is<Review>(re => re == r)), Times.Never);
+            reviewMock.Verify(repo => repo.CreateReview(It.Is<Review>(re => re == r)), Times.Never);
         }
 
         [Fact]
@@ -110,6 +113,7 @@ namespace MyNeighbors.UnitTests
             {
                 Id = 1,
                 Description = "Noisy neighbors",
+                Rating = 5.0,
                 Date = DateTime.Parse("2021-11-10"),
                 Noise_Rating = 2,
                 Shopping_Rating = 5,
@@ -129,6 +133,7 @@ namespace MyNeighbors.UnitTests
             {
                 Id = 1,
                 Description = "Noisy neighbors",
+                Rating = 5.0,
                 Date = DateTime.Parse("2021-11-10"),
                 Noise_Rating = 2,
                 Shopping_Rating = 5,
@@ -149,6 +154,7 @@ namespace MyNeighbors.UnitTests
             {
                 Id = 1,
                 Description = "Noisy neighbors",
+                Rating = 5,
                 Date = DateTime.Parse("2021-11-10"),
                 Noise_Rating = 2,
                 Shopping_Rating = 5,
