@@ -38,9 +38,14 @@ namespace MyNeighbors.Infrastructure.Repositories
             return userRemoved;
         }
 
-        public IEnumerable<User> GetAllUsers()
+        public IEnumerable<User> GetAllUsers(Filter filter)
         {
-            return _ctx.User.ToList();
+            if (filter == null)
+            {
+                return _ctx.User.AsNoTracking();
+            }
+            
+            return _ctx.User.AsNoTracking().Skip((filter.CurrentPage - 1) * filter.ItemsPrPage).Take(filter.ItemsPrPage);
         }
 
         public User ReadUserById(int id)

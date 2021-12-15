@@ -16,9 +16,13 @@ namespace MyNeighbors.Core.ApplicationServices.Services
         {
             _userRepo = userRepository;
         }
-        public List<User> ReadAllUsers()
+        public List<User> ReadAllUsers(Filter filter)
         {
-            return _userRepo.GetAllUsers().ToList();
+            if (filter == null || filter.ItemsPrPage == 0 && filter.CurrentPage == 0)
+            {
+                return _userRepo.GetAllUsers().ToList();
+            }
+            return _userRepo.GetAllUsers(filter).ToList();
         }
 
         public User UpdateUser(User userUpdate)

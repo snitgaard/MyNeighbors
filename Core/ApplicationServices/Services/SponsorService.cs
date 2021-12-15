@@ -9,9 +9,9 @@ namespace MyNeighbors.Core.ApplicationServices.Services
 {
     public class SponsorService: ISponsorService
     {
-        private readonly ISponsorRepository _sponsorRepo;
+        private readonly ISponsorRepository<Sponsor> _sponsorRepo;
 
-        public SponsorService(ISponsorRepository sponsorRepository)
+        public SponsorService(ISponsorRepository<Sponsor> sponsorRepository)
         {
             _sponsorRepo = sponsorRepository;
         }

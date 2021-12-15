@@ -18,12 +18,12 @@ namespace MyNeighbors.Controllers
             _userService = userService;
         }
 
-        [HttpGet]
-        public ActionResult<List<User>> Get()
+        [HttpGet("{filter}")]
+        public ActionResult<List<User>> Get([FromQuery] Filter filter)
         {
             try
             {
-                return _userService.ReadAllUsers();
+                return _userService.ReadAllUsers(filter);
             }
             catch (Exception)
             {

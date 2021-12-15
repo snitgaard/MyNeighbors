@@ -11,8 +11,8 @@ namespace MyNeighbors.Core.Entity
         public int Id { get; set; }
         public string Name { get; set; }
         public string Image { get; set; }
-        public double x_coordinate { get; set; }
-        public double y_coordinate { get; set; }
+        public double X_coordinate { get; set; }
+        public double Y_coordinate { get; set; }
         public string Type { get; set; }
     }
 }

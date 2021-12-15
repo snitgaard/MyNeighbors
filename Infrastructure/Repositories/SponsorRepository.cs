@@ -8,7 +8,7 @@ using MyNeighbors.Core.Entity;
 
 namespace MyNeighbors.Infrastructure.Repositories
 {
-    public class SponsorRepository: ISponsorRepository
+    public class SponsorRepository: ISponsorRepository<Sponsor>
     {
         private MyNeighborsContext _ctx;
 

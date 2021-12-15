@@ -248,6 +248,11 @@ namespace UnitTest
         [InlineData(2)]
         public void GetAllUsers(int userCount)
         {
+            Filter filter = new Filter() 
+            {
+                ItemsPrPage = 2,
+                CurrentPage = 1
+            };
             // arrange
             List<User> data = new List<User>()
             {
@@ -255,18 +260,18 @@ namespace UnitTest
                 new User() { Id = 2}
             };
 
-            repoMock.Setup(repo => repo.GetAllUsers()).Returns(() => data.GetRange(0, userCount));
+            repoMock.Setup(repo => repo.GetAllUsers(filter)).Returns(() => data.GetRange(0, userCount));
 
             UserService service = new UserService(repoMock.Object);
 
             // act
 
-            var result = service.ReadAllUsers();
+            var result = service.ReadAllUsers(filter);
 
             // assert
             Assert.Equal(result.Count(), userCount);
             Assert.Equal(result.ToList(), data.GetRange(0, userCount));
-            repoMock.Verify(repo => repo.GetAllUsers(), Times.Once);
+            repoMock.Verify(repo => repo.GetAllUsers(filter), Times.Once);
         }
 
     }
