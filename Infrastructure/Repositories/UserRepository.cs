@@ -66,6 +66,9 @@ namespace MyNeighbors.Infrastructure.Repositories
                 _authentication.CreatePasswordHash(updateUser.Password, out passwordHash1, out passwordSalt1);
                 updateUser.PasswordHash = passwordHash1;
                 updateUser.PasswordSalt = passwordSalt1;
+                var userFromDB = _ctx.User.FirstOrDefault(u => u.Id == updateUser.Id);
+                updateUser.IsAdmin = userFromDB.IsAdmin;
+                updateUser.Username = userFromDB.Username;
             }
             else
             {
