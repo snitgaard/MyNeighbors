@@ -72,6 +72,7 @@ namespace MyNeighbors.Infrastructure.Repositories
                 var userFromDB = _ctx.User.FirstOrDefault(u => u.Id == updateUser.Id);
                 updateUser.PasswordHash = userFromDB.PasswordHash;
                 updateUser.PasswordSalt = userFromDB.PasswordSalt;
+                updateUser.IsAdmin = userFromDB.IsAdmin;
             }
             _ctx.DetachAll();
             _ctx.Attach(updateUser).State = EntityState.Modified;
