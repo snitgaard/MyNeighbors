@@ -18,7 +18,7 @@ namespace MyNeighbors.Controllers
             _userService = userService;
         }
 
-        [HttpGet("{filter}")]
+        [HttpGet()]
         public ActionResult<List<User>> Get([FromQuery] Filter filter)
         {
             try
