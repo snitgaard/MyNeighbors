@@ -6,7 +6,7 @@ using MyNeighbors.Core.Entity;
 
 namespace MyNeighbors.Core.DomainServices
 {
-    public interface ISponsorRepository
+    public interface ISponsorRepository<T>
     {
         IEnumerable<Sponsor> ReadAllSponsors();
         Sponsor CreateSponsor(Sponsor sponsor);

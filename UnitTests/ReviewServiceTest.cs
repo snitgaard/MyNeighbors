@@ -7,7 +7,7 @@ using MyNeighbors.Core.DomainServices;
 using MyNeighbors.Core.Entity;
 using Xunit;
 
-namespace MyNeighbors.UnitTests
+namespace UnitTests
 {
     public class ReviewServiceTest
     {
