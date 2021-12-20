@@ -46,6 +46,12 @@ namespace MyNeighbors.Core.ApplicationServices.Services
             return _reviewRepo.ReadReviewById(id);
         }
 
+        public List<Review> FindReviewsByAddressId(string addressId, double address_x, double address_y)
+        {
+            return _reviewRepo.FindReviewsByAddressId(addressId, address_x, address_y).ToList();
+        }
+
+
         public Review DeleteReview(int id)
         {
             if (_reviewRepo.ReadReviewById(id) == null)
@@ -54,12 +60,6 @@ namespace MyNeighbors.Core.ApplicationServices.Services
             }
 
             return _reviewRepo.DeleteReview(id);
-        }
-
-        public Review NewReview(string id, string description, double rating, DateTime date, double noise_rating,
-            double shopping_rating, double schools_rating, User user, Address address)
-        {
-            throw new NotImplementedException();
         }
 
         public Review CreateReview(Review review)
@@ -73,20 +73,26 @@ namespace MyNeighbors.Core.ApplicationServices.Services
             {
                 throw new ArgumentException("Invalid review property");
             }
-            if (_reviewRepo.ReadReviewById(review.Id) != null)
-            {
-                throw new InvalidOperationException("This review already exists");
-            }
             return _reviewRepo.CreateReview(review);
         }
 
         private bool IsValidReview(Review review)
         {
             return (!review.Description.IsNullOrEmpty()
-                    && review.Rating > 0
-                    && review.Noise_Rating > 0
-                    && review.Schools_Rating > 0
-                    && review.Shopping_Rating > 0);
+                    && review.Noise_Rating > -1
+                    && review.Schools_Rating > -1
+                    && review.Shopping_Rating > -1)
+                    && review.Rating > -1;
+        }
+
+        public Review NewReview(string id, string description, double rating, DateTime date, int noise_rating, int shopping_rating, int schools_rating, User user, Address address)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Review> FindReviewsByUserId(int userId)
+        {
+            return _reviewRepo.FindReviewsByUserId(userId).ToList();
         }
     }
 }

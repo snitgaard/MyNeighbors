@@ -7,7 +7,7 @@ using MyNeighbors.Core.DomainServices;
 using MyNeighbors.Core.Entity;
 using Xunit;
 
-namespace MyNeighbors.UnitTests
+namespace UnitTests
 {
     public class ReviewServiceTest
     {
@@ -26,10 +26,10 @@ namespace MyNeighbors.UnitTests
             Assert.NotNull(service);
         }
 
-        [InlineData(1, "Noisy neighbors", 5.2, "2021-10-11", 3.4, 2.4, 4.2, 1)]
+        [InlineData(1, "Noisy neighbors", 5.0, "2021-10-11", 3, 2, 4, 1)]
         [Theory]
-        public void CreateValidReviewNotExist(int id, string description, double rating, string date, double noise_rating,
-            double shopping_rating, double schools_rating, int userId)
+        public void CreateValidReviewNotExist(int id, string description, double rating, string date, int noise_rating,
+            int shopping_rating, int schools_rating, int userId)
         {
             IReviewRepository repo = reviewMock.Object;
             ReviewService service = new ReviewService(repo);
@@ -55,11 +55,11 @@ namespace MyNeighbors.UnitTests
             {
                 Id = 1,
                 Description = "Noisy neighbors",
-                Rating = 5.4,
+                Rating = 5.0,
                 Date = DateTime.Parse("2021-11-10"),
-                Noise_Rating = 2.3,
-                Shopping_Rating = 5.4,
-                Schools_Rating = 3.4,
+                Noise_Rating = 2,
+                Shopping_Rating = 5,
+                Schools_Rating = 3,
                 UserId = 1
             };
             reviewMock.Setup(repo => repo.ReadReviewById(It.Is<int>(x => x == r.Id))).Returns(() => r);
@@ -79,15 +79,15 @@ namespace MyNeighbors.UnitTests
             reviewMock.Verify(repo => repo.CreateReview(It.Is<Review>(r => r == null)), Times.Never);
         }
 
-        [InlineData(1, null, 5.2, "2021-10-11", 3.4, 2.4, 4.2, 1)]
-        [InlineData(1, "", 5.2, "2021-10-11", 3.4, 2.4, 4.2, 1)]
-        [InlineData(1, "Noisy neighbors", -1.0, "2021-10-11", 3.4, 2.4, 4.2, 1)]
-        [InlineData(1, "Noisy neighbors", 5.2, "2021-10-11", -1.0, 2.4, 4.2, 1)]
-        [InlineData(1, "Noisy neighbors", 5.2, "2021-10-11", 3.4, -1.0, 4.2, 1)]
-        [InlineData(1, "Noisy neighbors", 5.2, "2021-10-11", 3.4, 2.4, -1.0, 1)]
+        [InlineData(1, null, 5, "2021-10-11", 3, 2, 4, 1)]
+        [InlineData(1, "", 5, "2021-10-11", 3, 2, 4, 1)]
+        [InlineData(1, "Noisy neighbors", -1, "2021-10-11", 3, 2, 4, 1)]
+        [InlineData(1, "Noisy neighbors", 5, "2021-10-11", -1, 2, 4, 1)]
+        [InlineData(1, "Noisy neighbors", 5, "2021-10-11", 3, -1, 4, 1)]
+        [InlineData(1, "Noisy neighbors", 5, "2021-10-11", 3, 2, -1, 1)]
         [Theory]
         public void CreateInvalidReviewExpectArgumentException(int id, string description, double rating, string date,
-            double noise_rating, double shopping_rating, double schools_rating, int userId)
+            int noise_rating, int shopping_rating, int schools_rating, int userId)
         {
             ReviewService service = new ReviewService(reviewMock.Object);
             Review r = new Review()
@@ -101,9 +101,9 @@ namespace MyNeighbors.UnitTests
                 Schools_Rating = schools_rating,
                 UserId = userId
             };
-            var ex = Assert.Throws<ArgumentException>(() => service.UpdateReview(r));
+            var ex = Assert.Throws<ArgumentException>(() => service.CreateReview(r));
             Assert.Equal("Invalid review property", ex.Message);
-            reviewMock.Verify(repo => repo.UpdateReview(It.Is<Review>(re => re == r)), Times.Never);
+            reviewMock.Verify(repo => repo.CreateReview(It.Is<Review>(re => re == r)), Times.Never);
         }
 
         [Fact]
@@ -113,11 +113,11 @@ namespace MyNeighbors.UnitTests
             {
                 Id = 1,
                 Description = "Noisy neighbors",
-                Rating = 5.4,
+                Rating = 5.0,
                 Date = DateTime.Parse("2021-11-10"),
-                Noise_Rating = 2.3,
-                Shopping_Rating = 5.4,
-                Schools_Rating = 3.4,
+                Noise_Rating = 2,
+                Shopping_Rating = 5,
+                Schools_Rating = 3,
                 UserId = 1
             };
             reviewMock.Setup(repo => repo.ReadReviewById(It.Is<int>(x => x == r.Id))).Returns(() => r);
@@ -133,11 +133,11 @@ namespace MyNeighbors.UnitTests
             {
                 Id = 1,
                 Description = "Noisy neighbors",
-                Rating = 5.4,
+                Rating = 5.0,
                 Date = DateTime.Parse("2021-11-10"),
-                Noise_Rating = 2.3,
-                Shopping_Rating = 5.4,
-                Schools_Rating = 3.4,
+                Noise_Rating = 2,
+                Shopping_Rating = 5,
+                Schools_Rating = 3,
                 UserId = 1
             };
             reviewMock.Setup(repo => repo.ReadReviewById(It.Is<int>(x => x == r.Id))).Returns(() => null);
@@ -154,11 +154,11 @@ namespace MyNeighbors.UnitTests
             {
                 Id = 1,
                 Description = "Noisy neighbors",
-                Rating = 5.4,
+                Rating = 5,
                 Date = DateTime.Parse("2021-11-10"),
-                Noise_Rating = 2.3,
-                Shopping_Rating = 5.4,
-                Schools_Rating = 3.4,
+                Noise_Rating = 2,
+                Shopping_Rating = 5,
+                Schools_Rating = 3,
                 UserId = 1
             };
             reviewMock.Setup(repo => repo.ReadReviewById(It.Is<int>(x => x == r.Id))).Returns(() => r);

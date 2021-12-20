@@ -11,10 +11,12 @@ namespace MyNeighbors.Core.Entity
         public string Description { get; set; } 
         public double Rating { get; set; }
         public DateTime Date { get; set; }
-        public double Noise_Rating { get; set; }
-        public double Shopping_Rating { get; set; }
-        public double Schools_Rating { get; set; }
+        public int Noise_Rating { get; set; }
+        public int Shopping_Rating { get; set; }
+        public int Schools_Rating { get; set; }
         public int UserId { get; set; }
-
+        public string AddressId { get; set; }
+        public double Address_x { get; set; }
+        public double Address_y { get; set; }
     }
 }

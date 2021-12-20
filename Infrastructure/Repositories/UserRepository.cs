@@ -2,6 +2,7 @@
 using MyNeighbors.Core.Entity;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using Microsoft.EntityFrameworkCore;
 using MyNeighbors.Infrastructure.Helpers;
 
@@ -37,14 +38,24 @@ namespace MyNeighbors.Infrastructure.Repositories
             return userRemoved;
         }
 
-        public IEnumerable<User> GetAllUsers()
+        public IEnumerable<User> GetAllUsers(Filter filter)
         {
-            return _ctx.User.ToList();
+            if (filter == null)
+            {
+                return _ctx.User.AsNoTracking();
+            }
+            
+            return _ctx.User.AsNoTracking().Skip((filter.CurrentPage - 1) * filter.ItemsPrPage).Take(filter.ItemsPrPage);
         }
 
         public User ReadUserById(int id)
         {
             return _ctx.User.AsNoTracking().FirstOrDefault(u => u.Id == id);
+        }
+
+        public User ReadUserByUsername(string username)
+        {
+            return _ctx.User.AsNoTracking().FirstOrDefault(u => u.Username == username);
         }
 
         public User UpdateUser(User updateUser)
@@ -55,12 +66,16 @@ namespace MyNeighbors.Infrastructure.Repositories
                 _authentication.CreatePasswordHash(updateUser.Password, out passwordHash1, out passwordSalt1);
                 updateUser.PasswordHash = passwordHash1;
                 updateUser.PasswordSalt = passwordSalt1;
+                var userFromDB = _ctx.User.FirstOrDefault(u => u.Id == updateUser.Id);
+                updateUser.IsAdmin = userFromDB.IsAdmin;
+                updateUser.Username = userFromDB.Username;
             }
             else
             {
                 var userFromDB = _ctx.User.FirstOrDefault(u => u.Id == updateUser.Id);
                 updateUser.PasswordHash = userFromDB.PasswordHash;
                 updateUser.PasswordSalt = userFromDB.PasswordSalt;
+                updateUser.IsAdmin = userFromDB.IsAdmin;
             }
             _ctx.DetachAll();
             _ctx.Attach(updateUser).State = EntityState.Modified;

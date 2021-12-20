@@ -19,11 +19,11 @@ namespace MyNeighbors.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<User>> Get()
+        public ActionResult<List<User>> Get([FromQuery] Filter filter)
         {
             try
             {
-                return _userService.ReadAllUsers();
+                return _userService.ReadAllUsers(filter);
             }
             catch (Exception)
             {
@@ -56,8 +56,14 @@ namespace MyNeighbors.Controllers
             {
                 return StatusCode(500, "Name is required for creating a user");
             }
-
-            return _userService.CreateUser(user);
+            try
+            {
+                return _userService.CreateUser(user);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
 
         [HttpPut("{id}")]

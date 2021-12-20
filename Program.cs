@@ -46,7 +46,6 @@ namespace MyNeighbors
                         System.Diagnostics.Debug.WriteLine(address.Description);
                     }
                 }
-
             }
             catch (Exception ex)
             {

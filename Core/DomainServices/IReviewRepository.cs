@@ -13,5 +13,7 @@ namespace MyNeighbors.Core.DomainServices
         Review ReadReviewById(int id);
         Review UpdateReview(Review updateReview);
         Review DeleteReview(int id);
+        IEnumerable<Review> FindReviewsByUserId(int userId);
+        IEnumerable<Review> FindReviewsByAddressId(string addressId, double address_x, double address_y);
     }
 }

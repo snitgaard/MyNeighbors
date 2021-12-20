@@ -23,19 +23,21 @@ namespace MyNeighbors.Controllers
             var user = repository.GetAllUsers().FirstOrDefault(u => u.Username == model.Username);
             if (user == null)
             {
-                return Unauthorized("User doesnt exist. Please try again");
+                return Unauthorized("Could not find user");
             }
 
             if (!authentication.VerifyPasswordHash(model.Password, user.PasswordHash, user.PasswordSalt))
             {
-                return Unauthorized("Wrong password. Please try again");
+                return StatusCode(401, "Wrong password. Please try again");
             }
 
             return Ok(new
             {
                 username = user.Username,
                 token = authentication.GenerateToken(user),
-                id = user.Id
+                id = user.Id,
+                isLoggedIn = true,
+                isAdmin = user.IsAdmin
             });
         }
     }
