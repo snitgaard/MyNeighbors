@@ -78,8 +78,7 @@ namespace MyNeighbors.Core.ApplicationServices.Services
 
         private bool IsValidReview(Review review)
         {
-            return (!review.Description.IsNullOrEmpty()
-                    && review.Noise_Rating > -1
+            return (review.Noise_Rating > -1
                     && review.Schools_Rating > -1
                     && review.Shopping_Rating > -1)
                     && review.Rating > -1;
