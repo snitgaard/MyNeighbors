@@ -14,5 +14,7 @@ namespace MyNeighbors.Core.DomainServices
         User ReadUserById(int id);
         User ReadUserByUsername(string username);
         User DeleteUser(int id);
+
+        int GetUserCount();
     }
 }

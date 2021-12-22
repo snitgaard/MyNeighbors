@@ -90,5 +90,10 @@ namespace MyNeighbors.Core.ApplicationServices.Services
         {
             return (!user.Username.IsNullOrEmpty());
         }
+
+        public int GetUserCount()
+        {
+            return _userRepo.GetUserCount();
+        }
     }
 }
