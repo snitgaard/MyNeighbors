@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Permissions;
 using Moq;
 using MyNeighbors.Core.ApplicationServices.Services;
 using MyNeighbors.Core.DomainServices;
@@ -139,6 +140,98 @@ namespace UnitTests
             service.DeleteReview(r.Id);
             reviewMock.Verify(repo => repo.DeleteReview(It.Is<int>(x => x == r.Id)), Times.Once);
         }
+
+        [Fact]
+        public void UpdateValidReview()
+        {
+            Review r = new Review()
+            {
+                Id = 1,
+                Description = "Noisy neighbors",
+                Address_x = 8.60435895,
+                Address_y = 55.72197902,
+                Rating = 5.0,
+                Date = DateTime.Parse("2021-11-10"),
+                Noise_Rating = 2,
+                Shopping_Rating = 5,
+                Schools_Rating = 3,
+                UserId = 1
+            };
+            reviewMock.Setup(repo => repo.ReadReviewById(It.Is<int>(x => x == r.Id))).Returns(() => r);
+            ReviewService service = new ReviewService(reviewMock.Object);
+            service.UpdateReview(r);
+            reviewMock.Verify(repo => repo.UpdateReview(It.Is<Review>((re => re == r))), Times.Once);
+        }
+
+        [Fact]
+        public void UpdateReviewIsNullExpectArgumentException()
+        {
+            ReviewService service = new ReviewService(reviewMock.Object);
+            var ex = Assert.Throws<ArgumentException>(() => service.UpdateReview(null));
+            Assert.Equal("Review is missing", ex.Message);
+            reviewMock.Verify(repo => repo.UpdateReview(It.Is<Review>(r => r == null)), Times.Never);
+        }
+
+        [Fact]
+        public void UpdateReviewNotExistingExpectInvalidOperationException()
+        {
+            Review r = new Review()
+            {
+                Id = 1,
+                Description = "Noisy neighbors",
+                Address_x = 8.60435895,
+                Address_y = 55.72197902,
+                Rating = 5.0,
+                Date = DateTime.Parse("2021-11-10"),
+                Noise_Rating = 2,
+                Shopping_Rating = 5,
+                Schools_Rating = 3,
+                UserId = 1
+            };
+            reviewMock.Setup(repo => repo.ReadReviewById(It.Is<int>(x => x == r.Id))).Returns(() => null);
+            ReviewService service = new ReviewService(reviewMock.Object);
+            var ex = Assert.Throws<InvalidOperationException>(() => service.UpdateReview(r));
+            Assert.Equal("Review does not exist", ex.Message);
+            reviewMock.Verify(repo => repo.UpdateReview(It.Is<Review>((re => re == r))), Times.Never);
+        }
+
+        [Theory]
+        [InlineData(1, "Noisy neighbors", 8.60435895, 55.72197902, -1, "2021-10-11", 3, 2, 4, 1)]
+        [InlineData(1, "Noisy neighbors", 8.60435895, 55.72197902, 5, "2021-10-11", -1, 2, 4, 1)]
+        [InlineData(1, "Noisy neighbors", 8.60435895, 55.72197902, 5, "2021-10-11", 3, -1, 4, 1)]
+        [InlineData(1, "Noisy neighbors", 8.60435895, 55.72197902, 5, "2021-10-11", 3, 2, -1, 1)]
+        [InlineData(1, "Noisy neighbors", 8.60435895, 55.72197902, 6, "2021-10-11", 3, 2, 4, 1)]
+        [InlineData(1, "Noisy neighbors", 8.60435895, 55.72197902, 5, "2021-10-11", 6, 2, 4, 1)]
+        [InlineData(1, "Noisy neighbors", 8.60435895, 55.72197902, 5, "2021-10-11", 3, 6, 4, 1)]
+        [InlineData(1, "Noisy neighbors", 8.60435895, 55.72197902, 5, "2021-10-11", 3, 5, 6, 1)]
+
+        [InlineData(1, "Noisy neighbors", 181.60435895, 55.72197902, 5, "2021-10-11", 3, 4, 5, 1)]
+        [InlineData(1, "Noisy neighbors", 8.60435895, 91.72197902, 5, "2021-10-11", 3, 4, 5, 1)]
+        [InlineData(1, "Noisy neighbors", -181.60435895, 55.72197902, 5, "2021-10-11", 3, 5, 4, 1)]
+        [InlineData(1, "Noisy neighbors", 8.60435895, -91.72197902, 5, "2021-10-11", 3, 5, 4, 1)]
+        public void UpdateReviewInvalidPropertyExpectArgumentException(int id, string description, double address_x,
+            double address_y, double rating, string date,
+            int noise_rating, int shopping_rating, int schools_rating, int userId)
+        {
+            ReviewService service = new ReviewService(reviewMock.Object);
+            Review r = new Review()
+            {
+                Id = id,
+                Description = description,
+                Address_x = address_x,
+                Address_y = address_y,
+                Rating = rating,
+                Date = DateTime.Parse(date),
+                Noise_Rating = noise_rating,
+                Shopping_Rating = shopping_rating,
+                Schools_Rating = schools_rating,
+                UserId = userId
+            };
+            var ex = Assert.Throws<ArgumentException>(() => service.UpdateReview(r));
+            Assert.Equal("Invalid review property", ex.Message);
+            reviewMock.Verify(repo => repo.UpdateReview((It.Is<Review>(re => re == r))), Times.Never);
+        }
+
 
         [Fact]
         public void DeleteReviewNotExistExpectInvalidOperationException()
