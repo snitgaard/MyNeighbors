@@ -26,9 +26,9 @@ namespace UnitTests
             Assert.NotNull(service);
         }
 
-        [InlineData(1, "Noisy neighbors", 5.0, "2021-10-11", 3, 2, 4, 1)]
+        [InlineData(1, "Noisy neighbors", 8.60435895, 55.72197902, 5.0, "2021-10-11", 3, 2, 4, 1)]
         [Theory]
-        public void CreateValidReviewNotExist(int id, string description, double rating, string date, int noise_rating,
+        public void CreateValidReviewNotExist(int id, string description, double address_x, double address_y, double rating, string date, int noise_rating,
             int shopping_rating, int schools_rating, int userId)
         {
             IReviewRepository repo = reviewMock.Object;
@@ -55,6 +55,8 @@ namespace UnitTests
             {
                 Id = 1,
                 Description = "Noisy neighbors",
+                Address_x = 8.60435895,
+                Address_y = 55.72197902,
                 Rating = 5.0,
                 Date = DateTime.Parse("2021-11-10"),
                 Noise_Rating = 2,
@@ -79,14 +81,22 @@ namespace UnitTests
             reviewMock.Verify(repo => repo.CreateReview(It.Is<Review>(r => r == null)), Times.Never);
         }
 
-        [InlineData(1, null, 5, "2021-10-11", 3, 2, 4, 1)]
-        [InlineData(1, "", 5, "2021-10-11", 3, 2, 4, 1)]
-        [InlineData(1, "Noisy neighbors", -1, "2021-10-11", 3, 2, 4, 1)]
-        [InlineData(1, "Noisy neighbors", 5, "2021-10-11", -1, 2, 4, 1)]
-        [InlineData(1, "Noisy neighbors", 5, "2021-10-11", 3, -1, 4, 1)]
-        [InlineData(1, "Noisy neighbors", 5, "2021-10-11", 3, 2, -1, 1)]
+        [InlineData(1, "Noisy neighbors", 8.60435895, 55.72197902, -1, "2021-10-11", 3, 2, 4, 1)]
+        [InlineData(1, "Noisy neighbors", 8.60435895, 55.72197902, 5, "2021-10-11", -1, 2, 4, 1)]
+        [InlineData(1, "Noisy neighbors", 8.60435895, 55.72197902, 5, "2021-10-11", 3, -1, 4, 1)]
+        [InlineData(1, "Noisy neighbors", 8.60435895, 55.72197902, 5, "2021-10-11", 3, 2, -1, 1)]
+        [InlineData(1, "Noisy neighbors", 8.60435895, 55.72197902, 6, "2021-10-11", 3, 2, 4, 1)]
+        [InlineData(1, "Noisy neighbors", 8.60435895, 55.72197902, 5, "2021-10-11", 6, 2, 4, 1)]
+        [InlineData(1, "Noisy neighbors", 8.60435895, 55.72197902, 5, "2021-10-11", 3, 6, 4, 1)]
+        [InlineData(1, "Noisy neighbors", 8.60435895, 55.72197902, 5, "2021-10-11", 3, 5, 6, 1)]
+
+        [InlineData(1, "Noisy neighbors", 181.60435895, 55.72197902, 5, "2021-10-11", 3, 4, 5, 1)]
+        [InlineData(1, "Noisy neighbors", 8.60435895, 91.72197902, 5, "2021-10-11", 3, 4, 5, 1)]
+        [InlineData(1, "Noisy neighbors", -181.60435895, 55.72197902, 5, "2021-10-11", 3, 5, 4, 1)]
+        [InlineData(1, "Noisy neighbors", 8.60435895, -91.72197902, 5, "2021-10-11", 3, 5, 4, 1)]
+
         [Theory]
-        public void CreateInvalidReviewExpectArgumentException(int id, string description, double rating, string date,
+        public void CreateInvalidReviewExpectArgumentException(int id, string description, double address_x, double address_y, double rating, string date,
             int noise_rating, int shopping_rating, int schools_rating, int userId)
         {
             ReviewService service = new ReviewService(reviewMock.Object);
@@ -94,6 +104,8 @@ namespace UnitTests
             {
                 Id = id,
                 Description = description,
+                Address_x = address_x,
+                Address_y = address_y,
                 Rating = rating,
                 Date = DateTime.Parse(date),
                 Noise_Rating = noise_rating,
@@ -113,6 +125,8 @@ namespace UnitTests
             {
                 Id = 1,
                 Description = "Noisy neighbors",
+                Address_x = 8.60435895,
+                Address_y = 55.72197902,
                 Rating = 5.0,
                 Date = DateTime.Parse("2021-11-10"),
                 Noise_Rating = 2,
@@ -133,6 +147,8 @@ namespace UnitTests
             {
                 Id = 1,
                 Description = "Noisy neighbors",
+                Address_x = 8.60435895,
+                Address_y = 55.72197902,
                 Rating = 5.0,
                 Date = DateTime.Parse("2021-11-10"),
                 Noise_Rating = 2,
@@ -154,6 +170,8 @@ namespace UnitTests
             {
                 Id = 1,
                 Description = "Noisy neighbors",
+                Address_x = 8.60435895,
+                Address_y = 55.72197902,
                 Rating = 5,
                 Date = DateTime.Parse("2021-11-10"),
                 Noise_Rating = 2,

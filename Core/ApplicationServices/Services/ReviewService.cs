@@ -73,6 +73,11 @@ namespace MyNeighbors.Core.ApplicationServices.Services
             {
                 throw new ArgumentException("Invalid review property");
             }
+
+            if (_reviewRepo.ReadReviewById(review.Id) != null)
+            {
+                throw new InvalidOperationException("This review already exists");
+            }
             return _reviewRepo.CreateReview(review);
         }
 
@@ -81,7 +86,15 @@ namespace MyNeighbors.Core.ApplicationServices.Services
             return (review.Noise_Rating > -1
                     && review.Schools_Rating > -1
                     && review.Shopping_Rating > -1)
-                    && review.Rating > -1;
+                    && review.Rating > -1
+                    && review.Schools_Rating <= 5
+                    && review.Shopping_Rating <= 5
+                    && review.Noise_Rating <= 5
+                    && review.Rating <= 5
+                    && review.Address_x <= 180
+                    && review.Address_y <= 90
+                    && review.Address_x >= -180
+                    && review.Address_y >= -90;
         }
 
         public Review NewReview(string id, string description, double rating, DateTime date, int noise_rating, int shopping_rating, int schools_rating, User user, Address address)

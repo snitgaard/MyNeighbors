@@ -31,12 +31,16 @@ namespace MyNeighbors.Core.ApplicationServices.Services
             {
                 throw new ArgumentException("User is missing");
             }
-
+            if (!IsValidUser(userUpdate))
+            {
+                throw new ArgumentException("Invalid user property");
+            }
 
             if (_userRepo.ReadUserById(userUpdate.Id) == null)
             {
                 throw new InvalidOperationException("User does not exist");
             }
+
             return _userRepo.UpdateUser(userUpdate);
         }
 
