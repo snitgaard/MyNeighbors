@@ -44,7 +44,7 @@ namespace MyNeighbors.Infrastructure.Repositories
             {
                 return _ctx.User.AsNoTracking();
             }
-            
+
             return _ctx.User.AsNoTracking().Skip((filter.CurrentPage - 1) * filter.ItemsPrPage).Take(filter.ItemsPrPage);
         }
 
@@ -56,6 +56,11 @@ namespace MyNeighbors.Infrastructure.Repositories
         public User ReadUserByUsername(string username)
         {
             return _ctx.User.AsNoTracking().FirstOrDefault(u => u.Username == username);
+        }
+
+        public int GetUserCount() 
+        {
+            return _ctx.User.AsNoTracking().Count();
         }
 
         public User UpdateUser(User updateUser)

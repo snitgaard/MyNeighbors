@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Castle.Core.Internal;
 using MyNeighbors.Core.DomainServices;
 using MyNeighbors.Core.Entity;
 
@@ -18,6 +19,23 @@ namespace MyNeighbors.Core.ApplicationServices.Services
 
         public Sponsor UpdateSponsor(Sponsor updateSponsor)
         {
+            if (updateSponsor == null)
+            {
+                throw new ArgumentException("Sponsor is missing");
+            }
+            if (!IsValidSponsor(updateSponsor))
+            {
+                throw new ArgumentException("Invalid sponsor property");
+            }
+
+            if (_sponsorRepo.ReadSponsorById(updateSponsor.Id) != null)
+            {
+                throw new InvalidOperationException("This Sponsor already exists");
+            }
+            if (_sponsorRepo.ReadSponsorById(updateSponsor.Id) == null)
+            {
+                throw new InvalidOperationException("Sponsor does not exist");
+            }
             return _sponsorRepo.UpdateSponsor(updateSponsor);
         }
 
@@ -28,11 +46,28 @@ namespace MyNeighbors.Core.ApplicationServices.Services
 
         public Sponsor DeleteSponsor(int id)
         {
+            if (_sponsorRepo.ReadSponsorById(id) == null)
+            {
+                throw new InvalidOperationException("Cannot remove sponsor that does not exist");
+            }
             return _sponsorRepo.DeleteSponsor(id);
         }
 
         public Sponsor CreateSponsor(Sponsor sponsor)
         {
+            if (sponsor == null)
+            {
+                throw new ArgumentException("Sponsor is missing");
+            }
+            if (!IsValidSponsor(sponsor))
+            {
+                throw new ArgumentException("Invalid sponsor property");
+            }
+            if (_sponsorRepo.ReadSponsorById(sponsor.Id) != null)
+            {
+                throw new InvalidOperationException("This Sponsor already exists");
+            }
+
             return _sponsorRepo.CreateSponsor(sponsor);
         }
 
@@ -40,5 +75,16 @@ namespace MyNeighbors.Core.ApplicationServices.Services
         {
             return _sponsorRepo.ReadAllSponsors().ToList();
         }
-    }
+
+        private bool IsValidSponsor(Sponsor sponsor)
+        {
+            return (!sponsor.Name.IsNullOrEmpty() 
+                    && !sponsor.Image.IsNullOrEmpty()
+                    && sponsor.X_coordinate <= 180
+                    && sponsor.Y_coordinate <= 90
+                    && sponsor.X_coordinate >= -180
+                    && sponsor.Y_coordinate >= -90
+                    && !sponsor.Type.IsNullOrEmpty());
+        }
+    }                    
 }

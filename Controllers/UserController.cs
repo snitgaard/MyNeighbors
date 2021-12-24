@@ -18,6 +18,12 @@ namespace MyNeighbors.Controllers
             _userService = userService;
         }
 
+        [HttpGet("count")]
+        public ActionResult<int> Get() 
+        {
+            return _userService.GetUserCount();
+        }
+
         [HttpGet]
         public ActionResult<List<User>> Get([FromQuery] Filter filter)
         {

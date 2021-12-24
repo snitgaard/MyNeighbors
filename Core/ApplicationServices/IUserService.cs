@@ -14,5 +14,6 @@ namespace MyNeighbors.Core.ApplicationServices
         User DeleteUser(int id);
         User NewUser(string username, string password);
         User CreateUser(User user);
+        int GetUserCount();
     }
 }

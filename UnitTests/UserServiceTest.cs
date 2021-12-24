@@ -63,7 +63,7 @@ namespace UnitTest
 
             var ex = Assert.Throws<InvalidOperationException>(() => service.CreateUser(u));
 
-            Assert.Equal("User already exists", ex.Message);
+            Assert.Equal("This User already exists", ex.Message);
             repoMock.Verify(repo => repo.CreateUser(It.Is<User>(us => us == u)), Times.Never);
         }
 

@@ -29,7 +29,7 @@ namespace UnitTest
         }
 
         [Theory]
-        [InlineData(1, "Elgiganten", "logo", 2.0, 2.0, "type")]
+        [InlineData(1, "Elgiganten", "logo", 8.60435895, 55.72197902, "type")]
         public void AddValidSponsorNotExist(int id,  string name, string image, double x_coordinate, double y_coordinate, string type)
         {
             ISponsorRepository<Sponsor> repo = repoMock.Object;
@@ -69,7 +69,7 @@ namespace UnitTest
 
             var ex = Assert.Throws<InvalidOperationException>(() => service.CreateSponsor(s));
 
-            Assert.Equal("Sponsor already exists", ex.Message);
+            Assert.Equal("This Sponsor already exists", ex.Message);
             repoMock.Verify(repo => repo.CreateSponsor(It.Is<Sponsor>(sp => sp == s)), Times.Never);
         }
 
@@ -87,8 +87,10 @@ namespace UnitTest
         [Theory]
         [InlineData(1, "", "logo", 2.0, 2.0, "type")] // test for empty name
         [InlineData(1, "Facebook", "", 2.0, 2.0, "korrupt")] // test for empty image
-        [InlineData(1, "Facebook", "logo", 0, 2.0, "type")] // test for empty x
-        [InlineData(1, "Facebook", "logo", 2.0, 0, "type")] // test for empty y
+        [InlineData(1, "Facebook", "logo", 181, 2.0, "type")] // test for x over 180
+        [InlineData(1, "Facebook", "logo", 2.0, 91, "type")] // test for y over 180
+        [InlineData(1, "Facebook", "logo", -181, 2.0, "type")] // test for x lower than -180
+        [InlineData(1, "Facebook", "logo", 2.0, -91, "type")] // test for y lower than -90
         [InlineData(1, "Facebook", "logo", 2.0, 2.0, "")] // test for empty type
         public void AddInvalidSponsorExpectArgumentException(int id, string name, string image, double x_coordinate, double y_coordinate, string type)
         {
@@ -108,88 +110,6 @@ namespace UnitTest
 
             Assert.Equal("Invalid sponsor property", ex.Message);
             repoMock.Verify(repo => repo.CreateSponsor((It.Is<Sponsor>(sp => sp == s))), Times.Never);
-        }
-
-        [Fact]
-        public void UpdateValidSponsor()
-        {
-            Sponsor s = new Sponsor()
-            {
-                Id = 1,
-                Name = "Virksomhed",
-                Image = "Billede",
-                X_coordinate = 2.0,
-                Y_coordinate = 2.0,
-                Type = "vand"
-            };
-
-            repoMock.Setup(repo => repo.ReadSponsorById(It.Is<int>(x => x == s.Id))).Returns(() => s);
-
-            SponsorService service = new SponsorService(repoMock.Object);
-
-            service.UpdateSponsor(s);
-
-            repoMock.Verify(repo => repo.UpdateSponsor(It.Is<Sponsor>((sp => sp == s))), Times.Once);
-        }
-
-        [Fact]
-        public void UpdateSponsorIsNullExpectArgumentException()
-        {
-            SponsorService service = new SponsorService(repoMock.Object);
-
-            var ex = Assert.Throws<ArgumentException>(() => service.UpdateSponsor(null));
-
-            Assert.Equal("Sponsor is missing", ex.Message);
-            repoMock.Verify(repo => repo.UpdateSponsor(It.Is<Sponsor>(s => s == null)), Times.Never);
-        }
-
-        [Fact]
-        public void UpdateSponsorNotExistingExpectInvalidOperationException()
-        {
-            Sponsor s = new Sponsor()
-            {
-                Id = 1,
-                Name = "Virksomhed",
-                Image = "Billede",
-                X_coordinate = 2.0,
-                Y_coordinate = 2.0,
-                Type = "vand"
-            };
-
-            repoMock.Setup(repo => repo.ReadSponsorById(It.Is<int>(x => x == s.Id))).Returns(() => null);
-
-            SponsorService service = new SponsorService(repoMock.Object);
-
-            var ex = Assert.Throws<InvalidOperationException>(() => service.UpdateSponsor(s));
-
-            Assert.Equal("Sponsor does not exist", ex.Message);
-            repoMock.Verify(repo => repo.CreateSponsor(It.Is<Sponsor>(sp => sp == s)), Times.Never);
-        }
-
-        [Theory]
-        [InlineData(1, "", "logo", 2.0, 2.0, "type")] // test for empty name
-        [InlineData(1, "Facebook", "", 2.0, 2.0, "korrupt")] // test for empty image
-        [InlineData(1, "Facebook", "logo", 0, 2.0, "type")] // test for empty x
-        [InlineData(1, "Facebook", "logo", 2.0, 0, "type")] // test for empty y
-        [InlineData(1, "Facebook", "logo", 2.0, 2.0, "")] // test for empty type
-        public void UpdateSponsorInvalidPropertyExpectArgumentException(int id, string name, string image, double x_coordinate, double y_coordinate, string type)
-        {
-            SponsorService service = new SponsorService(repoMock.Object);
-
-            Sponsor s = new Sponsor()
-            {
-                Id = id,
-                Name = name,
-                Image = image,
-                X_coordinate = x_coordinate,
-                Y_coordinate = y_coordinate,
-                Type = type
-            };
-
-            var ex = Assert.Throws<ArgumentException>(() => service.UpdateSponsor(s));
-
-            Assert.Equal("Invalid sponsor property", ex.Message);
-            repoMock.Verify(repo => repo.UpdateSponsor((It.Is<Sponsor>(sp => sp == s))), Times.Never);
         }
 
         [Fact]
