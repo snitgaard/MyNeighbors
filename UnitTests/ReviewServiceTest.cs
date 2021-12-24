@@ -39,6 +39,8 @@ namespace UnitTests
             {
                 Id = id,
                 Description = description,
+                Address_x = address_x,
+                Address_y = address_y,
                 Rating = rating,
                 Date = DateTime.Parse(date),
                 Noise_Rating = noise_rating,
