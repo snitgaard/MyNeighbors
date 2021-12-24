@@ -71,7 +71,7 @@ namespace MyNeighbors
             services.AddControllers();
             services.AddCors(options =>
             {
-                options.AddPolicy("CorsPolicy", b => b.WithOrigins("http://localhost:4200")
+                options.AddPolicy("CorsPolicy", b => b.WithOrigins("http://localhost:4200", "https://myneighbors-335810.web.app/")
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials()
