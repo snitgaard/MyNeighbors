@@ -47,7 +47,7 @@ namespace MyNeighbors.Infrastructure.Repositories
 
         public Review DeleteReview(int id)
         {
-            var review = _ctx.Review.FirstOrDefault();
+            var review = _ctx.Review.FirstOrDefault(r => r.Id == id);
             var removedReview = _ctx.Remove(review).Entity;
             _ctx.SaveChanges();
             return removedReview;
