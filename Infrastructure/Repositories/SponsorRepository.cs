@@ -45,7 +45,7 @@ namespace MyNeighbors.Infrastructure.Repositories
 
         public Sponsor DeleteSponsor(int id)
         {
-            var sponsor = _ctx.Sponsor.FirstOrDefault();
+            var sponsor = _ctx.Sponsor.FirstOrDefault(u => u.Id == id);
             var removedSponsor = _ctx.Remove(sponsor).Entity;
             _ctx.SaveChanges();
             return removedSponsor;
