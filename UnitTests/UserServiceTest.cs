@@ -57,7 +57,7 @@ namespace UnitTest
                 Password = "Password"
             };
 
-            repoMock.Setup(repo => repo.ReadUserById(It.Is<int>(x => x == u.Id))).Returns(() => u);
+            repoMock.Setup(repo => repo.GetUserById(It.Is<int>(x => x == u.Id))).Returns(() => u);
 
             UserService service = new UserService(repoMock.Object);
 
@@ -108,7 +108,7 @@ namespace UnitTest
                 Password = "Password"
             };
 
-            repoMock.Setup(repo => repo.ReadUserById(It.Is<int>(x => x == u.Id))).Returns(() => u);
+            repoMock.Setup(repo => repo.GetUserById(It.Is<int>(x => x == u.Id))).Returns(() => u);
 
             UserService service = new UserService(repoMock.Object);
 
@@ -138,7 +138,7 @@ namespace UnitTest
                 Password = "Password"
             };
 
-            repoMock.Setup(repo => repo.ReadUserById(It.Is<int>(x => x == u.Id))).Returns(() => null);
+            repoMock.Setup(repo => repo.GetUserById(It.Is<int>(x => x == u.Id))).Returns(() => null);
 
             UserService service = new UserService(repoMock.Object);
 
@@ -178,7 +178,7 @@ namespace UnitTest
                 Password = "Password"
             };
 
-            repoMock.Setup(repo => repo.ReadUserById(It.Is<int>(x => x == u.Id))).Returns(() => u);
+            repoMock.Setup(repo => repo.GetUserById(It.Is<int>(x => x == u.Id))).Returns(() => u);
 
             UserService service = new UserService(repoMock.Object);
 
@@ -197,7 +197,7 @@ namespace UnitTest
                 Password = "Password"
             };
 
-            repoMock.Setup(repo => repo.ReadUserById(It.Is<int>(x => x == u.Id))).Returns(() => null);
+            repoMock.Setup(repo => repo.GetUserById(It.Is<int>(x => x == u.Id))).Returns(() => null);
 
             UserService service = new UserService(repoMock.Object);
 
@@ -217,14 +217,14 @@ namespace UnitTest
                 Password = "Password"
             };
 
-            repoMock.Setup(repo => repo.ReadUserById(It.Is<int>(x => x == u.Id))).Returns(() => null);
+            repoMock.Setup(repo => repo.GetUserById(It.Is<int>(x => x == u.Id))).Returns(() => null);
 
             UserService service = new UserService(repoMock.Object);
 
-            var result = service.FindUserById(u.Id);
+            var result = service.GetUserById(u.Id);
 
             Assert.Null(result);
-            repoMock.Verify(repo => repo.ReadUserById(It.Is<int>(x => x == u.Id)), Times.Once);
+            repoMock.Verify(repo => repo.GetUserById(It.Is<int>(x => x == u.Id)), Times.Once);
         }
 
         [Fact]
@@ -232,14 +232,14 @@ namespace UnitTest
         {
             int id = 1;
 
-            repoMock.Setup(repo => repo.ReadUserById(It.Is<int>(x => x == id))).Returns(() => null);
+            repoMock.Setup(repo => repo.GetUserById(It.Is<int>(x => x == id))).Returns(() => null);
 
             UserService service = new UserService(repoMock.Object);
 
-            var result = service.FindUserById(id);
+            var result = service.GetUserById(id);
 
             Assert.Null(result);
-            repoMock.Verify(repo => repo.ReadUserById(It.Is<int>(x => x == id)), Times.Once);
+            repoMock.Verify(repo => repo.GetUserById(It.Is<int>(x => x == id)), Times.Once);
         }
 
         [Theory]        // empty repository, 1 in repository, n in repository
@@ -266,7 +266,7 @@ namespace UnitTest
 
             // act
 
-            var result = service.ReadAllUsers(filter);
+            var result = service.GetAllUsers(filter);
 
             // assert
             Assert.Equal(result.Count(), userCount);

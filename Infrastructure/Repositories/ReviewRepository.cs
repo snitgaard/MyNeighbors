@@ -19,7 +19,7 @@ namespace MyNeighbors.Infrastructure.Repositories
             _ctx = ctx;
         }
 
-        public IEnumerable<Review> ReadAllReviews()
+        public IEnumerable<Review> GetAllReviews()
         {
             return _ctx.Review.AsNoTracking().OrderByDescending(r => r.Date);
         }
@@ -32,7 +32,7 @@ namespace MyNeighbors.Infrastructure.Repositories
             return review;
         }
 
-        public Review ReadReviewById(int id)
+        public Review GetReviewById(int id)
         {
             return _ctx.Review.AsNoTracking().FirstOrDefault(r => r.Id == id);
         }
@@ -53,7 +53,7 @@ namespace MyNeighbors.Infrastructure.Repositories
             return removedReview;
         }
 
-        public IEnumerable<Review> FindReviewsByAddressId(string addressId, double address_x, double address_y)
+        public IEnumerable<Review> GetReviewsByAddressId(string addressId, double address_x, double address_y)
         {
             var ratioX = 0.002379515501747;
             var ratioY = 0.00137317885235;
@@ -62,15 +62,13 @@ namespace MyNeighbors.Infrastructure.Repositories
             var minY = address_y - ratioY;
             var maxX = address_x + ratioX;
             var maxY = address_y + ratioY;
-            Console.WriteLine("Incoming value: " + address_x + " & " + address_y);
-            Console.WriteLine("Calculated values: " + minX + ", " + minY + "& " + maxX + ", " + maxY);
             return _ctx.Review
                 .Where(r => r.Address_x >= minX && r.Address_x <= maxX && r.Address_y >= minY && r.Address_y <= maxY)
                 .OrderByDescending(r => r.Date)
                 .ToList();
         }
 
-        public IEnumerable<Review> FindReviewsByUserId(int userId)
+        public IEnumerable<Review> GetReviewsByUserId(int userId)
         {
             return _ctx.Review.Where(r => r.UserId == userId).OrderByDescending(r => r.Date).ToList();
         }

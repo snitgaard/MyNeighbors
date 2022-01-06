@@ -16,7 +16,7 @@ namespace MyNeighbors.Core.ApplicationServices.Services
         {
             _userRepo = userRepository;
         }
-        public List<User> ReadAllUsers(Filter filter)
+        public List<User> GetAllUsers(Filter filter)
         {
             if (filter == null || filter.ItemsPrPage == 0 && filter.CurrentPage == 0)
             {
@@ -36,7 +36,7 @@ namespace MyNeighbors.Core.ApplicationServices.Services
                 throw new ArgumentException("Invalid user property");
             }
 
-            if (_userRepo.ReadUserById(userUpdate.Id) == null)
+            if (_userRepo.GetUserById(userUpdate.Id) == null)
             {
                 throw new InvalidOperationException("User does not exist");
             }
@@ -44,28 +44,18 @@ namespace MyNeighbors.Core.ApplicationServices.Services
             return _userRepo.UpdateUser(userUpdate);
         }
 
-        public User FindUserById(int id)
+        public User GetUserById(int id)
         {
-            return _userRepo.ReadUserById(id);
+            return _userRepo.GetUserById(id);
         }
 
         public User DeleteUser(int id)
         {
-            if (_userRepo.ReadUserById(id) == null)
+            if (_userRepo.GetUserById(id) == null)
             {
                 throw new InvalidOperationException("Cannot remove user that does not exist");
             }
             return _userRepo.DeleteUser(id);
-        }
-
-        public User NewUser(string username, string password)
-        {
-            var user = new User()
-            {
-                Username = username,
-                Password = password
-            };
-            return user;
         }
 
         public User CreateUser(User user)
@@ -78,12 +68,12 @@ namespace MyNeighbors.Core.ApplicationServices.Services
             {
                 throw new ArgumentException("Invalid user property");
             }
-            if (_userRepo.ReadUserById(user.Id) != null)
+            if (_userRepo.GetUserById(user.Id) != null)
             {
                 throw new InvalidOperationException("This User already exists");
             }
 
-            if (_userRepo.ReadUserByUsername(user.Username) != null)
+            if (_userRepo.GetUserByUsername(user.Username) != null)
             {
                 throw new InvalidOperationException("This User already exists");
             }

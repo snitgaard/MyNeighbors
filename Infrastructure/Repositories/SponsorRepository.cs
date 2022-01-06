@@ -11,13 +11,12 @@ namespace MyNeighbors.Infrastructure.Repositories
     public class SponsorRepository: ISponsorRepository<Sponsor>
     {
         private MyNeighborsContext _ctx;
-
         public SponsorRepository(MyNeighborsContext ctx)
         {
             _ctx = ctx;
         }
 
-        public IEnumerable<Sponsor> ReadAllSponsors()
+        public IEnumerable<Sponsor> GetAllSponsors()
         {
             return _ctx.Sponsor.AsNoTracking();
         }
@@ -30,7 +29,7 @@ namespace MyNeighbors.Infrastructure.Repositories
             return sponsor;
         }
 
-        public Sponsor ReadSponsorById(int id)
+        public Sponsor GetSponsorById(int id)
         {
             return _ctx.Sponsor.AsNoTracking().FirstOrDefault(s => s.Id == id);
         }
@@ -45,7 +44,7 @@ namespace MyNeighbors.Infrastructure.Repositories
 
         public Sponsor DeleteSponsor(int id)
         {
-            var sponsor = _ctx.Sponsor.FirstOrDefault(u => u.Id == id);
+            var sponsor = _ctx.Sponsor.FirstOrDefault(s => s.Id == id);
             var removedSponsor = _ctx.Remove(sponsor).Entity;
             _ctx.SaveChanges();
             return removedSponsor;

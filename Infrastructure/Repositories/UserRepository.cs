@@ -48,12 +48,12 @@ namespace MyNeighbors.Infrastructure.Repositories
             return _ctx.User.AsNoTracking().Skip((filter.CurrentPage - 1) * filter.ItemsPrPage).Take(filter.ItemsPrPage);
         }
 
-        public User ReadUserById(int id)
+        public User GetUserById(int id)
         {
             return _ctx.User.AsNoTracking().FirstOrDefault(u => u.Id == id);
         }
 
-        public User ReadUserByUsername(string username)
+        public User GetUserByUsername(string username)
         {
             return _ctx.User.AsNoTracking().FirstOrDefault(u => u.Username == username);
         }

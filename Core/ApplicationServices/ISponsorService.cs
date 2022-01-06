@@ -10,7 +10,7 @@ namespace MyNeighbors.Core.ApplicationServices
     {
         List<Sponsor> GetAllSponsors();
         Sponsor UpdateSponsor(Sponsor updateSponsor);
-        Sponsor FindSponsorById(int id);
+        Sponsor GetSponsorById(int id);
         Sponsor DeleteSponsor(int id);
         Sponsor CreateSponsor(Sponsor sponsor);
     }

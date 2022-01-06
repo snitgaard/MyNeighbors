@@ -19,7 +19,7 @@ namespace MyNeighbors.Core.ApplicationServices.Services
         }
         public List<Review> GetAllReviews()
         {
-            return _reviewRepo.ReadAllReviews().ToList();
+            return _reviewRepo.GetAllReviews().ToList();
         }
 
         public Review UpdateReview(Review updateReview)
@@ -34,27 +34,26 @@ namespace MyNeighbors.Core.ApplicationServices.Services
                 throw new ArgumentException("Invalid review property");
             }
 
-            if (_reviewRepo.ReadReviewById(updateReview.Id) == null)
+            if (_reviewRepo.GetReviewById(updateReview.Id) == null)
             {
                 throw new InvalidOperationException("Review does not exist");
             }
             return _reviewRepo.UpdateReview(updateReview);
         }
 
-        public Review FindReviewById(int id)
+        public Review GetReviewById(int id)
         {
-            return _reviewRepo.ReadReviewById(id);
+            return _reviewRepo.GetReviewById(id);
         }
 
-        public List<Review> FindReviewsByAddressId(string addressId, double address_x, double address_y)
+        public List<Review> GetReviewsByAddressId(string addressId, double address_x, double address_y)
         {
-            return _reviewRepo.FindReviewsByAddressId(addressId, address_x, address_y).ToList();
+            return _reviewRepo.GetReviewsByAddressId(addressId, address_x, address_y).ToList();
         }
-
 
         public Review DeleteReview(int id)
         {
-            if (_reviewRepo.ReadReviewById(id) == null)
+            if (_reviewRepo.GetReviewById(id) == null)
             {
                 throw new InvalidOperationException("Cannot remove review that does not exist");
             }
@@ -74,7 +73,7 @@ namespace MyNeighbors.Core.ApplicationServices.Services
                 throw new ArgumentException("Invalid review property");
             }
 
-            if (_reviewRepo.ReadReviewById(review.Id) != null)
+            if (_reviewRepo.GetReviewById(review.Id) != null)
             {
                 throw new InvalidOperationException("This review already exists");
             }
@@ -97,14 +96,9 @@ namespace MyNeighbors.Core.ApplicationServices.Services
                     && review.Address_y >= -90;
         }
 
-        public Review NewReview(string id, string description, double rating, DateTime date, int noise_rating, int shopping_rating, int schools_rating, User user, Address address)
+        public List<Review> GetReviewsByUserId(int userId)
         {
-            throw new NotImplementedException();
-        }
-
-        public List<Review> FindReviewsByUserId(int userId)
-        {
-            return _reviewRepo.FindReviewsByUserId(userId).ToList();
+            return _reviewRepo.GetReviewsByUserId(userId).ToList();
         }
     }
 }
