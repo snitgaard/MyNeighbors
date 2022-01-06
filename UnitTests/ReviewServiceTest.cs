@@ -67,7 +67,7 @@ namespace UnitTests
                 Schools_Rating = 3,
                 UserId = 1
             };
-            reviewMock.Setup(repo => repo.ReadReviewById(It.Is<int>(x => x == r.Id))).Returns(() => r);
+            reviewMock.Setup(repo => repo.GetReviewById(It.Is<int>(x => x == r.Id))).Returns(() => r);
             ReviewService service = new ReviewService(reviewMock.Object);
 
             var reviewEx = Assert.Throws<InvalidOperationException>(() => service.CreateReview(r));
@@ -137,7 +137,7 @@ namespace UnitTests
                 Schools_Rating = 3,
                 UserId = 1
             };
-            reviewMock.Setup(repo => repo.ReadReviewById(It.Is<int>(x => x == r.Id))).Returns(() => r);
+            reviewMock.Setup(repo => repo.GetReviewById(It.Is<int>(x => x == r.Id))).Returns(() => r);
             ReviewService service = new ReviewService(reviewMock.Object);
             service.DeleteReview(r.Id);
             reviewMock.Verify(repo => repo.DeleteReview(It.Is<int>(x => x == r.Id)), Times.Once);
@@ -159,7 +159,7 @@ namespace UnitTests
                 Schools_Rating = 3,
                 UserId = 1
             };
-            reviewMock.Setup(repo => repo.ReadReviewById(It.Is<int>(x => x == r.Id))).Returns(() => r);
+            reviewMock.Setup(repo => repo.GetReviewById(It.Is<int>(x => x == r.Id))).Returns(() => r);
             ReviewService service = new ReviewService(reviewMock.Object);
             service.UpdateReview(r);
             reviewMock.Verify(repo => repo.UpdateReview(It.Is<Review>((re => re == r))), Times.Once);
@@ -190,7 +190,7 @@ namespace UnitTests
                 Schools_Rating = 3,
                 UserId = 1
             };
-            reviewMock.Setup(repo => repo.ReadReviewById(It.Is<int>(x => x == r.Id))).Returns(() => null);
+            reviewMock.Setup(repo => repo.GetReviewById(It.Is<int>(x => x == r.Id))).Returns(() => null);
             ReviewService service = new ReviewService(reviewMock.Object);
             var ex = Assert.Throws<InvalidOperationException>(() => service.UpdateReview(r));
             Assert.Equal("Review does not exist", ex.Message);
@@ -251,7 +251,7 @@ namespace UnitTests
                 Schools_Rating = 3,
                 UserId = 1
             };
-            reviewMock.Setup(repo => repo.ReadReviewById(It.Is<int>(x => x == r.Id))).Returns(() => null);
+            reviewMock.Setup(repo => repo.GetReviewById(It.Is<int>(x => x == r.Id))).Returns(() => null);
             ReviewService service = new ReviewService(reviewMock.Object);
             var ex = Assert.Throws<InvalidOperationException>(() => service.DeleteReview(r.Id));
             Assert.Equal("Cannot remove review that does not exist", ex.Message);
@@ -274,22 +274,22 @@ namespace UnitTests
                 Schools_Rating = 3,
                 UserId = 1
             };
-            reviewMock.Setup(repo => repo.ReadReviewById(It.Is<int>(x => x == r.Id))).Returns(() => r);
+            reviewMock.Setup(repo => repo.GetReviewById(It.Is<int>(x => x == r.Id))).Returns(() => r);
             ReviewService service = new ReviewService(reviewMock.Object);
-            var result = service.FindReviewById(r.Id);
+            var result = service.GetReviewById(r.Id);
             Assert.Equal(result, r);
-            reviewMock.Verify(repo => repo.ReadReviewById(It.Is<int>(x => x == r.Id)), Times.Once);
+            reviewMock.Verify(repo => repo.GetReviewById(It.Is<int>(x => x == r.Id)), Times.Once);
         }
 
         [Fact]
         public void GetReviewByIdNonExistingReviewReturnsNull()
         {
             int id = 1;
-            reviewMock.Setup(repo => repo.ReadReviewById(It.Is<int>(x => x == id))).Returns(() => null);
+            reviewMock.Setup(repo => repo.GetReviewById(It.Is<int>(x => x == id))).Returns(() => null);
             ReviewService service = new ReviewService(reviewMock.Object);
-            var result = service.FindReviewById(id);
+            var result = service.GetReviewById(id);
             Assert.Null(result);
-            reviewMock.Verify(repo => repo.ReadReviewById(It.Is<int>(x => x == id)), Times.Once);
+            reviewMock.Verify(repo => repo.GetReviewById(It.Is<int>(x => x == id)), Times.Once);
         }
 
         [Theory]
@@ -303,12 +303,12 @@ namespace UnitTests
                 new Review(){Id = 1},
                 new Review(){Id = 2}
             };
-            reviewMock.Setup(repo => repo.ReadAllReviews()).Returns(() => data.GetRange(0, reviewCount));
+            reviewMock.Setup(repo => repo.GetAllReviews()).Returns(() => data.GetRange(0, reviewCount));
             ReviewService service = new ReviewService(reviewMock.Object);
             var result = service.GetAllReviews();
             Assert.Equal(result.Count(), reviewCount);
             Assert.Equal(result.ToList(), data.GetRange(0, reviewCount));
-            reviewMock.Verify(repo => repo.ReadAllReviews(), Times.Once);
+            reviewMock.Verify(repo => repo.GetAllReviews(), Times.Once);
 
         }
 

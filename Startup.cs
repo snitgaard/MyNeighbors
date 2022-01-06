@@ -21,13 +21,13 @@ namespace MyNeighbors
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
-  
-        public IConfiguration Configuration { get; }
-
+        
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -57,12 +57,9 @@ namespace MyNeighbors
             });
             string connection = Configuration["ConnectionStrings:sqlConnection"];
             services.AddDbContext<MyNeighborsContext>(opt => opt.UseSqlServer(connection));
-            services.AddControllers();
-
             services.AddScoped<IReviewService, ReviewService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ISponsorService, SponsorService>();
-
 
             services.AddScoped<IReviewRepository, ReviewRepository>();
             services.AddScoped<IUserRepository<User>, UserRepository>();
@@ -86,7 +83,6 @@ namespace MyNeighbors
             {
                 var services = scope.ServiceProvider;
                 var ctx = services.GetService<MyNeighborsContext>();
-                var reviewRepo = scope.ServiceProvider.GetService<IReviewRepository>();
             }
 
             if (env.IsDevelopment())
@@ -97,30 +93,14 @@ namespace MyNeighbors
             }
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
             app.UseCors("CorsPolicy");
             app.UseAuthentication();
             app.UseAuthorization();
 
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-            });
-
-        }
-
-        private void SetCorsPolicy(IServiceCollection services)
-        {
-
-            services.AddCors(options =>
-            {
-                options.AddPolicy("CorsPolicy", b => b.WithOrigins("http://localhost:4200")
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials()
-                );
             });
         }
     }

@@ -63,7 +63,7 @@ namespace UnitTest
                 Type = "vand"
             };
 
-            repoMock.Setup(repo => repo.ReadSponsorById(It.Is<int>(x => x == s.Id))).Returns(() => s);
+            repoMock.Setup(repo => repo.GetSponsorById(It.Is<int>(x => x == s.Id))).Returns(() => s);
 
             SponsorService service = new SponsorService(repoMock.Object);
 
@@ -125,7 +125,7 @@ namespace UnitTest
                 Type = "vand"
             };
 
-            repoMock.Setup(repo => repo.ReadSponsorById(It.Is<int>(x => x == s.Id))).Returns(() => s);
+            repoMock.Setup(repo => repo.GetSponsorById(It.Is<int>(x => x == s.Id))).Returns(() => s);
 
             SponsorService service = new SponsorService(repoMock.Object);
 
@@ -147,7 +147,7 @@ namespace UnitTest
                 Type = "vand"
             };
 
-            repoMock.Setup(repo => repo.ReadSponsorById(It.Is<int>(x => x == s.Id))).Returns(() => null);
+            repoMock.Setup(repo => repo.GetSponsorById(It.Is<int>(x => x == s.Id))).Returns(() => null);
 
             SponsorService service = new SponsorService(repoMock.Object);
 
@@ -170,14 +170,14 @@ namespace UnitTest
                 Type = "vand"
             };
 
-            repoMock.Setup(repo => repo.ReadSponsorById(It.Is<int>(x => x == s.Id))).Returns(() => null);
+            repoMock.Setup(repo => repo.GetSponsorById(It.Is<int>(x => x == s.Id))).Returns(() => null);
 
             SponsorService service = new SponsorService(repoMock.Object);
 
-            var result = service.FindSponsorById(s.Id);
+            var result = service.GetSponsorById(s.Id);
 
             Assert.Null(result);
-            repoMock.Verify(repo => repo.ReadSponsorById(It.Is<int>(x => x == s.Id)), Times.Once);
+            repoMock.Verify(repo => repo.GetSponsorById(It.Is<int>(x => x == s.Id)), Times.Once);
         }
 
         [Fact]
@@ -185,14 +185,14 @@ namespace UnitTest
         {
             int id = 1;
 
-            repoMock.Setup(repo => repo.ReadSponsorById(It.Is<int>(s => s == id))).Returns(() => null);
+            repoMock.Setup(repo => repo.GetSponsorById(It.Is<int>(s => s == id))).Returns(() => null);
 
             SponsorService service = new SponsorService(repoMock.Object);
 
-            var result = service.FindSponsorById(id);
+            var result = service.GetSponsorById(id);
 
             Assert.Null(result);
-            repoMock.Verify(repo => repo.ReadSponsorById(It.Is<int>(s => s == id)), Times.Once);
+            repoMock.Verify(repo => repo.GetSponsorById(It.Is<int>(s => s == id)), Times.Once);
         }
 
         [Theory]        // empty repository, 1 in repository, n in repository
@@ -208,7 +208,7 @@ namespace UnitTest
                 new Sponsor() { Id = 2}
             };
 
-            repoMock.Setup(repo => repo.ReadAllSponsors()).Returns(() => data.GetRange(0, sponsorCount));
+            repoMock.Setup(repo => repo.GetAllSponsors()).Returns(() => data.GetRange(0, sponsorCount));
 
             SponsorService service = new SponsorService(repoMock.Object);
 
@@ -219,7 +219,7 @@ namespace UnitTest
             // assert
             Assert.Equal(result.Count(), sponsorCount);
             Assert.Equal(result.ToList(), data.GetRange(0, sponsorCount));
-            repoMock.Verify(repo => repo.ReadAllSponsors(), Times.Once);
+            repoMock.Verify(repo => repo.GetAllSponsors(), Times.Once);
         }
 
     }

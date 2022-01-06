@@ -8,11 +8,10 @@ namespace MyNeighbors.Core.ApplicationServices
 {
     public interface IUserService
     {
-        List<User> ReadAllUsers(Filter filter);
+        List<User> GetAllUsers(Filter filter);
         User UpdateUser(User userUpdate);
-        User FindUserById(int id);
+        User GetUserById(int id);
         User DeleteUser(int id);
-        User NewUser(string username, string password);
         User CreateUser(User user);
         int GetUserCount();
     }

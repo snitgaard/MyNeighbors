@@ -8,12 +8,12 @@ namespace MyNeighbors.Core.DomainServices
 {
     public interface IReviewRepository
     {
-        IEnumerable<Review> ReadAllReviews();
+        IEnumerable<Review> GetAllReviews();
         Review CreateReview(Review review);
-        Review ReadReviewById(int id);
+        Review GetReviewById(int id);
         Review UpdateReview(Review updateReview);
         Review DeleteReview(int id);
-        IEnumerable<Review> FindReviewsByUserId(int userId);
-        IEnumerable<Review> FindReviewsByAddressId(string addressId, double address_x, double address_y);
+        IEnumerable<Review> GetReviewsByUserId(int userId);
+        IEnumerable<Review> GetReviewsByAddressId(string addressId, double address_x, double address_y);
     }
 }

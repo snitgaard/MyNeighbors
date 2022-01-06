@@ -8,9 +8,9 @@ namespace MyNeighbors.Core.DomainServices
 {
     public interface ISponsorRepository<T>
     {
-        IEnumerable<Sponsor> ReadAllSponsors();
+        IEnumerable<Sponsor> GetAllSponsors();
         Sponsor CreateSponsor(Sponsor sponsor);
-        Sponsor ReadSponsorById(int id);
+        Sponsor GetSponsorById(int id);
         Sponsor UpdateSponsor(Sponsor sponsor);
         Sponsor DeleteSponsor(int id);
     }

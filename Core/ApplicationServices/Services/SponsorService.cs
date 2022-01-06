@@ -28,25 +28,25 @@ namespace MyNeighbors.Core.ApplicationServices.Services
                 throw new ArgumentException("Invalid sponsor property");
             }
 
-            if (_sponsorRepo.ReadSponsorById(updateSponsor.Id) != null)
+            if (_sponsorRepo.GetSponsorById(updateSponsor.Id) != null)
             {
                 throw new InvalidOperationException("This Sponsor already exists");
             }
-            if (_sponsorRepo.ReadSponsorById(updateSponsor.Id) == null)
+            if (_sponsorRepo.GetSponsorById(updateSponsor.Id) == null)
             {
                 throw new InvalidOperationException("Sponsor does not exist");
             }
             return _sponsorRepo.UpdateSponsor(updateSponsor);
         }
 
-        public Sponsor FindSponsorById(int id)
+        public Sponsor GetSponsorById(int id)
         {
-            return _sponsorRepo.ReadSponsorById(id);
+            return _sponsorRepo.GetSponsorById(id);
         }
 
         public Sponsor DeleteSponsor(int id)
         {
-            if (_sponsorRepo.ReadSponsorById(id) == null)
+            if (_sponsorRepo.GetSponsorById(id) == null)
             {
                 throw new InvalidOperationException("Cannot remove sponsor that does not exist");
             }
@@ -63,7 +63,7 @@ namespace MyNeighbors.Core.ApplicationServices.Services
             {
                 throw new ArgumentException("Invalid sponsor property");
             }
-            if (_sponsorRepo.ReadSponsorById(sponsor.Id) != null)
+            if (_sponsorRepo.GetSponsorById(sponsor.Id) != null)
             {
                 throw new InvalidOperationException("This Sponsor already exists");
             }
@@ -73,7 +73,7 @@ namespace MyNeighbors.Core.ApplicationServices.Services
 
         public List<Sponsor> GetAllSponsors()
         {
-            return _sponsorRepo.ReadAllSponsors().ToList();
+            return _sponsorRepo.GetAllSponsors().ToList();
         }
 
         private bool IsValidSponsor(Sponsor sponsor)

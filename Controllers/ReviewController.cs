@@ -25,14 +25,14 @@ namespace MyNeighbors.Controllers
         [HttpGet("{id}")]
         public ActionResult<Review> Get(int id)
         {
-            var review = _reviewService.FindReviewById(id);
+            var review = _reviewService.GetReviewById(id);
             if (review == null)
             {
                 return StatusCode(404, "Review not found");
             }
             try
             {
-                return _reviewService.FindReviewById(id);
+                return _reviewService.GetReviewById(id);
             }
             catch (Exception)
             {
@@ -43,14 +43,14 @@ namespace MyNeighbors.Controllers
         [HttpGet("{addressId}&x={address_x}&y={address_y}")]
         public ActionResult<List<Review>> GetByAddressId(string addressId, double address_x, double address_y)
         {
-            var review = _reviewService.FindReviewsByAddressId(addressId, address_x, address_y);
+            var review = _reviewService.GetReviewsByAddressId(addressId, address_x, address_y);
             if (review == null)
             {
                 return StatusCode(404, "Review not found");
             }
             try
             {
-                return _reviewService.FindReviewsByAddressId(addressId, address_x, address_y);
+                return _reviewService.GetReviewsByAddressId(addressId, address_x, address_y);
             }
             catch (Exception)
             {
@@ -105,7 +105,7 @@ namespace MyNeighbors.Controllers
         [HttpGet("userid/{userId}")]
         public ActionResult<List<Review>> GetByUserId(int userId) 
         {
-            var review = _reviewService.FindReviewsByUserId(userId);
+            var review = _reviewService.GetReviewsByUserId(userId);
             if (review == null)
             {
                 return StatusCode(404, "Review not found");
@@ -113,7 +113,7 @@ namespace MyNeighbors.Controllers
 
             try
             {
-                return _reviewService.FindReviewsByUserId(userId);
+                return _reviewService.GetReviewsByUserId(userId);
             }
             catch (Exception)
             {

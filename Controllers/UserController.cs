@@ -29,7 +29,7 @@ namespace MyNeighbors.Controllers
         {
             try
             {
-                return _userService.ReadAllUsers(filter);
+                return _userService.GetAllUsers(filter);
             }
             catch (Exception)
             {
@@ -39,7 +39,7 @@ namespace MyNeighbors.Controllers
         [HttpGet("{id}")]
         public ActionResult<User> Get(int id)
         {
-            var user = _userService.FindUserById(id);
+            var user = _userService.GetUserById(id);
             if (user == null)
             {
                 return StatusCode(404, "User does not exist");
@@ -47,7 +47,7 @@ namespace MyNeighbors.Controllers
 
             try
             {
-                return _userService.FindUserById(id);
+                return _userService.GetUserById(id);
             }
             catch (Exception)
             {

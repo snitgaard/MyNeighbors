@@ -27,14 +27,14 @@ namespace MyNeighbors.Controllers
         [HttpGet("{id}")]
         public ActionResult<Sponsor> Get(int id)
         {
-            var sponsor = _sponsorService.FindSponsorById(id);
+            var sponsor = _sponsorService.GetSponsorById(id);
             if (sponsor == null)
             {
                 return StatusCode(404, "Sponsor not found");
             }
             try
             {
-                return _sponsorService.FindSponsorById(id);
+                return _sponsorService.GetSponsorById(id);
             }
             catch (Exception)
             {

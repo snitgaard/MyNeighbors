@@ -11,10 +11,9 @@ namespace MyNeighbors.Core.DomainServices
         IEnumerable<T> GetAllUsers(Filter filter = null);
         User CreateUser(User user);
         User UpdateUser(User updateUser);
-        User ReadUserById(int id);
-        User ReadUserByUsername(string username);
+        User GetUserById(int id);
+        User GetUserByUsername(string username);
         User DeleteUser(int id);
-
         int GetUserCount();
     }
 }
