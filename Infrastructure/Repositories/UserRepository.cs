@@ -45,7 +45,7 @@ namespace MyNeighbors.Infrastructure.Repositories
                 return _ctx.User.AsNoTracking();
             }
 
-            return _ctx.User.AsNoTracking().Skip((filter.CurrentPage - 1) * filter.ItemsPrPage).Take(filter.ItemsPrPage);
+            return _ctx.User.AsNoTracking().Skip((filter.CurrentPage) * filter.ItemsPrPage).Take(filter.ItemsPrPage);
         }
 
         public User GetUserById(int id)
